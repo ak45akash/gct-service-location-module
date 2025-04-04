@@ -24,7 +24,7 @@
                 const serviceId = $(this).val();
                 if (!serviceId) return;
                 
-                updateServiceData($module, serviceId, nonce);
+                updateServiceData($module, serviceId, nonce, serviceType);
             });
 
             // Set the first option as selected if none is selected
@@ -41,8 +41,9 @@
      * @param {jQuery} $module The module element
      * @param {number} serviceId The selected service ID
      * @param {string} nonce Security nonce
+     * @param {string} serviceType The service type slug
      */
-    function updateServiceData($module, serviceId, nonce) {
+    function updateServiceData($module, serviceId, nonce, serviceType) {
         const $serviceInfo = $module.find('.gct-service-info-container');
         const $locationButtons = $module.find('.gct-location-buttons');
 
@@ -56,12 +57,13 @@
             data: {
                 action: 'gct_service_location_module_get_service_data',
                 service_id: serviceId,
+                service_type: serviceType,
                 nonce: nonce || gctServiceLocationModule.nonce
             },
             success: function(response) {
                 if (response.success && response.data) {
                     // Update service info
-                    updateServiceInfo($serviceInfo, response.data);
+                    updateServiceInfo($serviceInfo, response.data, serviceType);
                     
                     // Update location buttons
                     updateLocationButtons($locationButtons, response.data.locations);
@@ -82,15 +84,22 @@
      * 
      * @param {jQuery} $serviceInfo The service info container
      * @param {Object} data The service data
+     * @param {string} serviceType The service type slug
      */
-    function updateServiceInfo($serviceInfo, data) {
+    function updateServiceInfo($serviceInfo, data, serviceType) {
         let imageHtml = '';
+        let serviceTypeHtml = '';
         
         if (data.image) {
             imageHtml = `<img src="${data.image}" alt="${data.title}" class="gct-service-image">`;
         }
         
+        if (data.service_type_name) {
+            serviceTypeHtml = `<div class="gct-service-type-label">${data.service_type_name}</div>`;
+        }
+        
         $serviceInfo.html(`
+            ${serviceTypeHtml}
             <div class="gct-service-title">${data.title}</div>
             ${imageHtml}
             <div class="gct-service-description">${data.content}</div>

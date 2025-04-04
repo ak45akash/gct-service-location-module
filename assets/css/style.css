@@ -171,4 +171,157 @@
 /* Fade transition */
 .gct-fade-transition {
     transition: opacity 0.3s ease;
+}
+
+/* Service Type Label */
+.gct-service-type-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #6923aa;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #6923aa;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+/* Service Info Container (Left Side) */
+.gct-service-info-container {
+    flex: 1 1 60%;
+    min-width: 300px;
+}
+
+.gct-service-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.gct-service-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.gct-service-description {
+    margin-bottom: 1.5rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.gct-read-more-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #6923aa;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.gct-read-more-button:hover {
+    background-color: #5a1e92;
+    text-decoration: none;
+}
+
+/* Service Selection Container (Right Side) */
+.gct-service-selection-container {
+    flex: 1 1 30%;
+    min-width: 250px;
+}
+
+.gct-service-selector {
+    margin-bottom: 1.5rem;
+}
+
+.gct-service-selector label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.gct-service-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+}
+
+.gct-location-section-title {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.gct-location-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.gct-location-button {
+    display: block;
+    padding: 0.75rem 1rem;
+    background-color: #f5f5f5;
+    color: #333 !important;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.gct-location-button:hover {
+    background-color: #e5e5e5;
+    text-decoration: none;
+}
+
+/* Loading state */
+.gct-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.gct-loading:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #6923aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .gct-service-location-module {
+        flex-direction: column;
+    }
+    
+    .gct-service-info-container, 
+    .gct-service-selection-container {
+        flex: 1 1 100%;
+    }
+    
+    .gct-service-info-container {
+        margin-bottom: 1.5rem;
+    }
 } 

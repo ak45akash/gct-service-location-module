@@ -11,7 +11,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
      * Module initialization
      */
     public function init() {
-        $this->name = esc_html__('Service & Location Selector', 'gct-service-location-module');
+        $this->name = 'Service & Location Selector';
         $this->icon = 'A'; // Custom icon in a future version
         $this->main_css_element = '%%order_class%%';
         
@@ -53,12 +53,13 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                 'default'         => '',
                 'description'     => esc_html__('Filter services by this service type.', 'gct-service-location-module'),
                 'toggle_slug'     => 'main_content',
+                'affects'         => array('default_service'),
             ),
             'default_service' => array(
                 'label'           => esc_html__('Default Service', 'gct-service-location-module'),
                 'type'            => 'select',
                 'option_category' => 'basic_option',
-                'options'         => $this->get_service_options(),
+                'options'         => array(),  // Will be populated dynamically based on service_type
                 'default'         => '',
                 'description'     => esc_html__('Select the default service to display when the page loads.', 'gct-service-location-module'),
                 'toggle_slug'     => 'main_content',
@@ -123,9 +124,9 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
     }
     
     /**
-     * Get service options for the dropdown
+     * Get service options for the dropdown based on service type
      */
-    private function get_service_options() {
+    public function get_service_options($service_type = '') {
         $options = array(
             '' => esc_html__('Select a Service', 'gct-service-location-module'),
         );
@@ -138,6 +139,17 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
             'order'          => 'ASC',
         );
         
+        // Filter by service type if specified
+        if (!empty($service_type)) {
+            $args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'service_type',
+                    'field'    => 'slug',
+                    'terms'    => $service_type,
+                ),
+            );
+        }
+        
         $services = get_posts($args);
         
         if (!empty($services)) {
@@ -147,6 +159,18 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         }
         
         return $options;
+    }
+    
+    /**
+     * Process dynamic fields before render
+     */
+    public function process_dynamic_content($content, $args) {
+        if (isset($args['field']) && $args['field'] === 'default_service' && isset($args['attrs']['service_type'])) {
+            $service_type = $args['attrs']['service_type'];
+            return wp_json_encode($this->get_service_options($service_type));
+        }
+        
+        return parent::process_dynamic_content($content, $args);
     }
     
     /**
@@ -213,6 +237,15 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
             $first_service = $services[0];
         }
         
+        // Get the service type name for display
+        $service_type_name = '';
+        if (!empty($service_type)) {
+            $service_type_term = get_term_by('slug', $service_type, 'service_type');
+            if ($service_type_term && !is_wp_error($service_type_term)) {
+                $service_type_name = $service_type_term->name;
+            }
+        }
+        
         // Start output buffering
         ob_start();
         
@@ -225,6 +258,10 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
             <!-- Service Info Container (Left side) -->
             <div class="gct-service-info-container">
                 <!-- Service info will be dynamically loaded via JS, but provide default for first load -->
+                <?php if (!empty($service_type_name)) : ?>
+                <div class="gct-service-type-label"><?php echo esc_html($service_type_name); ?></div>
+                <?php endif; ?>
+                
                 <?php if ($first_service) : 
                     $title = $first_service->post_title;
                     $content = $first_service->post_content;

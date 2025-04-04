@@ -75,6 +75,7 @@ function gct_service_location_module_get_service_data() {
     }
     
     $service_id = isset($_POST['service_id']) ? intval($_POST['service_id']) : 0;
+    $service_type = isset($_POST['service_type']) ? sanitize_text_field($_POST['service_type']) : '';
     
     if (!$service_id) {
         wp_send_json_error('Invalid service ID');
@@ -104,6 +105,27 @@ function gct_service_location_module_get_service_data() {
         }
     }
     
+    // Get service type name
+    $service_type_name = '';
+    if (!empty($service_type)) {
+        $service_type_term = get_term_by('slug', $service_type, 'service_type');
+        if ($service_type_term && !is_wp_error($service_type_term)) {
+            $service_type_name = $service_type_term->name;
+        } else {
+            // If specific service type not found, try to get the service's own service type
+            $service_terms = get_the_terms($service_id, 'service_type');
+            if ($service_terms && !is_wp_error($service_terms) && !empty($service_terms)) {
+                $service_type_name = $service_terms[0]->name;
+            }
+        }
+    } else {
+        // If no service type specified, get from the service itself
+        $service_terms = get_the_terms($service_id, 'service_type');
+        if ($service_terms && !is_wp_error($service_terms) && !empty($service_terms)) {
+            $service_type_name = $service_terms[0]->name;
+        }
+    }
+    
     // Prepare response
     $response = array(
         'id' => $service->ID,
@@ -111,7 +133,8 @@ function gct_service_location_module_get_service_data() {
         'content' => apply_filters('the_content', $service->post_content),
         'permalink' => get_permalink($service->ID),
         'image' => $image,
-        'locations' => $locations
+        'locations' => $locations,
+        'service_type_name' => $service_type_name
     );
     
     wp_send_json_success($response);
