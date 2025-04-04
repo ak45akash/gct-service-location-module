@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service & Location Selector Module Preview</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .container {
+            margin: 0 auto;
+            max-width: 1100px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .preview-controls {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .preview-controls h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .module-preview {
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+        .site-header {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+        }
+        .page-title {
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        .form-group button {
+            padding: 8px 16px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .service-mock-data {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Service & Location Selector Module Preview</h1>
+    </header>
+
+    <div class="container">
+        <div class="preview-controls">
+            <h2>Module Controls</h2>
+            <p>These controls simulate the Divi admin settings for the module.</p>
+            <form id="preview-form">
+                <div class="form-group">
+                    <label for="service-type">Default Service Type:</label>
+                    <select id="service-type" name="service-type">
+                        <option value="">Select a Service Type</option>
+                        <option value="burials">Burials</option>
+                        <option value="memorials" selected>Memorials</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="service-label">Service Selector Label:</label>
+                    <input type="text" id="service-label" name="service-label" value="Service">
+                </div>
+                <div class="form-group">
+                    <label for="location-title">Location Section Title:</label>
+                    <input type="text" id="location-title" name="location-title" value="Locations">
+                </div>
+                <div class="form-group">
+                    <button type="button" id="update-preview">Update Preview</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Simulated website header -->
+        <div class="site-header">
+            gmct.com.au/services
+        </div>
+
+        <!-- Page title matching the original -->
+        <h1 class="page-title">Browse locations by service</h1>
+
+        <div class="module-preview">
+            <div class="gct-service-location-module">
+                <!-- Service Info Container (Left side) -->
+                <div class="gct-service-info-container">
+                    <div class="gct-service-title">Columbaria</div>
+                    <img src="https://via.placeholder.com/500x300/fb9a52/ffffff?text=Columbaria" alt="Columbaria" class="gct-service-image">
+                    <div class="gct-service-description">
+                        <p>A columbarium is a traditional and ornate type of memorial wall usually located within a public mausoleum.</p>
+                    </div>
+                    <a href="#" class="gct-read-more-button">Read more about Columbaria</a>
+                </div>
+                
+                <!-- Service Selection Container (Right side) -->
+                <div class="gct-service-selection-container">
+                    <!-- Service Type Selector -->
+                    <div class="gct-service-selector">
+                        <label for="gct-service-select">Service</label>
+                        <select id="gct-service-select" class="gct-service-select">
+                            <option value="">Select a service</option>
+                            <option value="columbaria" selected>Columbaria</option>
+                            <option value="book-of-remembrance">Book Of Remembrance</option>
+                            <option value="memorial-bench">Memorial Bench Seat</option>
+                            <option value="garden-memorial">Native Garden Memorial</option>
+                            <option value="personalized-garden">Personalised Garden Memorials</option>
+                            <option value="boulder-memorial">Boulder Memorial</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Location Section Title -->
+                    <h3 class="gct-location-section-title">Locations</h3>
+                    
+                    <!-- Location Buttons -->
+                    <div class="gct-location-buttons">
+                        <a href="#" class="gct-location-button" data-location-id="1">Fawkner Memorial Park</a>
+                        <a href="#" class="gct-location-button" data-location-id="2">Preston Cemetery</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="service-mock-data">
+            <h2>Mock Data (For Preview Only)</h2>
+            <p>This section contains mock data that simulates the WordPress database for this preview:</p>
+            
+            <h3>Available Services:</h3>
+            <ul>
+                <li><strong>Columbaria</strong> - A columbarium is a traditional and ornate type of memorial wall usually located within a public mausoleum.</li>
+                <li><strong>Book Of Remembrance</strong> - A memorial book where names and details of loved ones can be inscribed.</li>
+                <li><strong>Memorial Bench Seat</strong> - A dedicated bench seat placed in a garden or other suitable location.</li>
+                <li><strong>Native Garden Memorial</strong> - A memorial placed within a garden featuring native Australian plants.</li>
+                <li><strong>Personalised Garden Memorials</strong> - Custom memorials integrated into garden settings.</li>
+                <li><strong>Boulder Memorial</strong> - Natural stone memorials with commemorative plaques.</li>
+            </ul>
+            
+            <h3>Available Locations:</h3>
+            <ul>
+                <li>Fawkner Memorial Park</li>
+                <li>Preston Cemetery</li>
+                <li>Bellarine Memorial Park</li>
+                <li>Drysdale Cemetery</li>
+                <li>Leopold Cemetery</li>
+                <li>Portarlington Cemetery</li>
+                <li>Queenscliff Cemetery</li>
+                <li>Greater Geelong</li>
+                <li>Barrabool Hills Cemetery</li>
+                <li>Flinders Memorial Park</li>
+                <li>Geelong Eastern Cemetery</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for preview
+        const mockServices = {
+            'columbaria': {
+                title: 'Columbaria',
+                image: 'https://via.placeholder.com/500x300/fb9a52/ffffff?text=Columbaria',
+                content: '<p>A columbarium is a traditional and ornate type of memorial wall usually located within a public mausoleum.</p>',
+                locations: [
+                    { id: 1, name: 'Fawkner Memorial Park' },
+                    { id: 2, name: 'Preston Cemetery' }
+                ]
+            },
+            'book-of-remembrance': {
+                title: 'Book Of Remembrance',
+                image: 'https://via.placeholder.com/500x300/6495ed/ffffff?text=Book+Of+Remembrance',
+                content: '<p>A memorial book where names and details of loved ones can be inscribed.</p>',
+                locations: [
+                    { id: 3, name: 'Bellarine Memorial Park' },
+                    { id: 7, name: 'Greater Geelong' }
+                ]
+            },
+            'memorial-bench': {
+                title: 'Memorial Bench Seat',
+                image: 'https://via.placeholder.com/500x300/98fb98/000000?text=Memorial+Bench+Seat',
+                content: '<p>A dedicated bench seat placed in a garden or other suitable location.</p>',
+                locations: [
+                    { id: 1, name: 'Fawkner Memorial Park' },
+                    { id: 3, name: 'Bellarine Memorial Park' },
+                    { id: 10, name: 'Flinders Memorial Park' }
+                ]
+            },
+            'garden-memorial': {
+                title: 'Native Garden Memorial',
+                image: 'https://via.placeholder.com/500x300/8fbc8f/ffffff?text=Native+Garden+Memorial',
+                content: '<p>A memorial placed within a garden featuring native Australian plants.</p>',
+                locations: [
+                    { id: 7, name: 'Greater Geelong' },
+                    { id: 9, name: 'Barrabool Hills Cemetery' }
+                ]
+            },
+            'personalized-garden': {
+                title: 'Personalised Garden Memorials',
+                image: 'https://via.placeholder.com/500x300/9370db/ffffff?text=Personalised+Garden+Memorials',
+                content: '<p>Custom memorials integrated into garden settings.</p>',
+                locations: [
+                    { id: 3, name: 'Bellarine Memorial Park' },
+                    { id: 10, name: 'Flinders Memorial Park' },
+                    { id: 11, name: 'Geelong Eastern Cemetery' }
+                ]
+            },
+            'boulder-memorial': {
+                title: 'Boulder Memorial',
+                image: 'https://via.placeholder.com/500x300/a0522d/ffffff?text=Boulder+Memorial',
+                content: '<p>Natural stone memorials with commemorative plaques.</p>',
+                locations: [
+                    { id: 1, name: 'Fawkner Memorial Park' },
+                    { id: 9, name: 'Barrabool Hills Cemetery' }
+                ]
+            }
+        };
+        
+        // Preview functionality
+        $(document).ready(function() {
+            const $serviceSelect = $('.gct-service-select');
+            const $serviceInfo = $('.gct-service-info-container');
+            const $locationButtons = $('.gct-location-buttons');
+            
+            // Handle service selection change
+            $serviceSelect.on('change', function() {
+                const serviceId = $(this).val();
+                if (serviceId && mockServices[serviceId]) {
+                    updatePreview(serviceId);
+                }
+            });
+            
+            // Update preview based on form values
+            $('#update-preview').on('click', function() {
+                const serviceLabel = $('#service-label').val();
+                const locationTitle = $('#location-title').val();
+                
+                // Update labels in the preview
+                $('.gct-service-selector label').text(serviceLabel);
+                $('.gct-location-section-title').text(locationTitle);
+            });
+            
+            // Function to update preview
+            function updatePreview(serviceId) {
+                const service = mockServices[serviceId];
+                
+                // Update service info with image below title
+                $serviceInfo.html(`
+                    <div class="gct-service-title">${service.title}</div>
+                    <img src="${service.image}" alt="${service.title}" class="gct-service-image">
+                    <div class="gct-service-description">${service.content}</div>
+                    <a href="#" class="gct-read-more-button">Read more about ${service.title}</a>
+                `);
+                
+                // Update location buttons
+                if (!service.locations || !service.locations.length) {
+                    $locationButtons.html('<p>No locations available for this service.</p>');
+                    return;
+                }
+                
+                let buttonsHtml = '';
+                service.locations.forEach(function(location) {
+                    buttonsHtml += `<a href="#" class="gct-location-button" data-location-id="${location.id}">${location.name}</a>`;
+                });
+                
+                $locationButtons.html(buttonsHtml);
+            }
+        });
+    </script>
+</body>
+</html> 

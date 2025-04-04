@@ -1,0 +1,153 @@
+/* Service Location Module Styles */
+
+/* Module title */
+.gct-module-title {
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.gct-service-location-module {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Container for the service image and description */
+.gct-service-info-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Container for the service selection and location buttons */
+.gct-service-selection-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Service title */
+.gct-service-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Service image */
+.gct-service-image {
+    margin-bottom: 20px;
+    margin-top: 15px;
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+}
+
+/* Service description */
+.gct-service-description {
+    margin-bottom: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Read more button */
+.gct-read-more-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #f4b183;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    font-weight: normal;
+    border: none;
+}
+
+.gct-read-more-button:hover {
+    background-color: #e9976c;
+}
+
+/* Service selection */
+.gct-service-selector {
+    margin-bottom: 24px;
+}
+
+.gct-service-selector label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.gct-service-selector select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 12px auto;
+}
+
+/* Location section title */
+.gct-location-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+/* Location buttons */
+.gct-location-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gct-location-button {
+    padding: 12px 15px;
+    background-color: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease;
+    font-weight: normal;
+    text-align: center;
+    min-width: 180px;
+}
+
+.gct-location-button:hover {
+    background-color: #e9e9e9;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .gct-service-location-module {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .gct-service-info-container,
+    .gct-service-selection-container {
+        width: 100%;
+    }
+    
+    .gct-location-button {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+/* Loading state */
+.gct-loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Fade transition */
+.gct-fade-transition {
+    transition: opacity 0.3s ease;
+} 
