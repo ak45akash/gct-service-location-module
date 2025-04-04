@@ -14,6 +14,22 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         $this->name = esc_html__('Service & Location Selector', 'gct-service-location-module');
         $this->icon = 'A'; // Custom icon in a future version
         $this->main_css_element = '%%order_class%%';
+        
+        // Define settings tabs and sections
+        $this->settings_modal_toggles = array(
+            'general' => array(
+                'toggles' => array(
+                    'main_content' => esc_html__('Module Settings', 'gct-service-location-module'),
+                    'elements' => esc_html__('Elements', 'gct-service-location-module'),
+                ),
+            ),
+            'advanced' => array(
+                'toggles' => array(
+                    'text' => esc_html__('Text', 'gct-service-location-module'),
+                    'layout' => esc_html__('Layout', 'gct-service-location-module'),
+                ),
+            ),
+        );
     }
     
     /**
@@ -21,46 +37,46 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
      */
     public function get_fields() {
         return array(
+            'module_title' => array(
+                'label'           => esc_html__('Module Title', 'gct-service-location-module'),
+                'type'            => 'text',
+                'option_category' => 'basic_option',
+                'default'         => esc_html__('Browse locations by service', 'gct-service-location-module'),
+                'description'     => esc_html__('The main title displayed above the module.', 'gct-service-location-module'),
+                'toggle_slug'     => 'main_content',
+            ),
             'default_service_type' => array(
                 'label'           => esc_html__('Default Service Type', 'gct-service-location-module'),
                 'type'            => 'select',
-                'option_category' => 'configuration',
+                'option_category' => 'basic_option',
                 'options'         => $this->get_service_type_options(),
                 'default'         => '',
                 'description'     => esc_html__('Select the default service type to display when the page loads.', 'gct-service-location-module'),
-                'toggle_slug'     => 'general',
+                'toggle_slug'     => 'main_content',
             ),
             'service_selector_label' => array(
                 'label'           => esc_html__('Service Selector Label', 'gct-service-location-module'),
                 'type'            => 'text',
-                'option_category' => 'configuration',
+                'option_category' => 'basic_option',
                 'default'         => esc_html__('Service', 'gct-service-location-module'),
                 'description'     => esc_html__('The label displayed above the service selector.', 'gct-service-location-module'),
-                'toggle_slug'     => 'general',
+                'toggle_slug'     => 'elements',
             ),
             'location_section_title' => array(
                 'label'           => esc_html__('Location Section Title', 'gct-service-location-module'),
                 'type'            => 'text',
-                'option_category' => 'configuration',
+                'option_category' => 'basic_option',
                 'default'         => esc_html__('Locations', 'gct-service-location-module'),
                 'description'     => esc_html__('The title for the location buttons section.', 'gct-service-location-module'),
-                'toggle_slug'     => 'general',
+                'toggle_slug'     => 'elements',
             ),
             'read_more_text' => array(
                 'label'           => esc_html__('Read More Button Text', 'gct-service-location-module'),
                 'type'            => 'text',
-                'option_category' => 'configuration',
+                'option_category' => 'basic_option',
                 'default'         => esc_html__('Read more about', 'gct-service-location-module'),
                 'description'     => esc_html__('The text for the read more button. The service name will be appended.', 'gct-service-location-module'),
-                'toggle_slug'     => 'general',
-            ),
-            'module_title' => array(
-                'label'           => esc_html__('Module Title', 'gct-service-location-module'),
-                'type'            => 'text',
-                'option_category' => 'configuration',
-                'default'         => esc_html__('Browse locations by service', 'gct-service-location-module'),
-                'description'     => esc_html__('The main title displayed above the module.', 'gct-service-location-module'),
-                'toggle_slug'     => 'general',
+                'toggle_slug'     => 'elements',
             ),
             'default_image' => array(
                 'label'           => esc_html__('Default Service Image', 'gct-service-location-module'),
@@ -70,7 +86,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                 'choose_text'     => esc_attr__('Choose an Image', 'gct-service-location-module'),
                 'update_text'     => esc_attr__('Set As Image', 'gct-service-location-module'),
                 'description'     => esc_html__('Upload a default image for services without featured images.', 'gct-service-location-module'),
-                'toggle_slug'     => 'general',
+                'toggle_slug'     => 'main_content',
             ),
         );
     }
