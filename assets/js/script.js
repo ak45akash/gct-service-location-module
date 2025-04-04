@@ -91,7 +91,7 @@
         let serviceTypeHtml = '';
         
         if (data.image) {
-            imageHtml = `<img src="${data.image}" alt="${data.title}" class="gct-service-image">`;
+            imageHtml = `<div class="gct-service-image-container"><img src="${data.image}" alt="${data.title}" class="gct-service-image"></div>`;
         }
         
         if (data.service_type_name) {

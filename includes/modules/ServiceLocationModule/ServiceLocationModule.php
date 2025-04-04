@@ -174,6 +174,20 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
     }
     
     /**
+     * Additional method for Visual Builder compatibility
+     */
+    public function get_fields_sanitized() {
+        $fields = $this->get_fields();
+        
+        // Ensure default_service options are available
+        if (isset($fields['default_service'])) {
+            $fields['default_service']['options'] = $this->get_service_options();
+        }
+        
+        return $fields;
+    }
+    
+    /**
      * Render the module output
      */
     public function render($attrs, $content = null, $render_slug) {
@@ -278,9 +292,11 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                 ?>
                 <div class="gct-service-title"><?php echo esc_html($title); ?></div>
                 <?php if (!empty($image)) : ?>
-                <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>" class="gct-service-image">
+                <div class="gct-service-image-container">
+                    <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>" class="gct-service-image">
+                </div>
                 <?php endif; ?>
-                <div class="gct-service-description"><?php echo wp_kses_post($content); ?></div>
+                <div class="gct-service-description"><?php echo wp_kses_post(wpautop($content)); ?></div>
                 <a href="<?php echo esc_url(get_permalink($first_service->ID)); ?>" class="gct-read-more-button"><?php echo esc_html($read_more_text . ' ' . $title); ?></a>
                 <?php endif; ?>
             </div>
@@ -307,7 +323,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                 <div class="gct-location-buttons">
                     <!-- Location buttons will be dynamically loaded via JS -->
                     <?php if ($first_service) : 
-                        $location_terms = get_the_terms($first_service->ID, 'location_category');
+                        $location_terms = get_the_terms($first_service->ID, 'location-category');
                         if ($location_terms && !is_wp_error($location_terms) && !empty($location_terms)) :
                             foreach ($location_terms as $term) : ?>
                                 <a href="#" class="gct-location-button" data-location-id="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></a>

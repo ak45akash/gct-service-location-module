@@ -93,7 +93,7 @@ function gct_service_location_module_get_service_data() {
     
     // Get service locations
     $locations = array();
-    $location_terms = get_the_terms($service_id, 'location_category');
+    $location_terms = get_the_terms($service_id, 'location-category');
     
     if ($location_terms && !is_wp_error($location_terms)) {
         foreach ($location_terms as $term) {
