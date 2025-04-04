@@ -1,6 +1,15 @@
-/* Service Location Module Styles */
+/**
+ * GCT Service Location Module Styles
+ */
 
-/* Module title */
+/* Container Styles */
+.gct-service-location-module {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+/* Module Title */
 .gct-module-title {
     margin-bottom: 1.5rem;
     width: 100%;
@@ -8,28 +17,48 @@
     font-size: 35.2px;
     font-family: larken, sans-serif;
     font-weight: normal;
+    text-align: center;
 }
 
-.gct-service-location-module {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
+/* Service Type Label */
+.gct-service-type-label {
+    display: none;
+}
+
+/* Service Selection Container (Now at top) */
+.gct-service-selection-container {
+    width: 100%;
     margin-bottom: 2rem;
 }
 
-/* Container for the service image and description */
+.gct-service-selector {
+    margin-bottom: 1.5rem;
+}
+
+.gct-service-selector label {
+    display: none;
+}
+
+.gct-service-select {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Service Info Container (Main content area) */
 .gct-service-info-container {
-    flex: 1 1 45%;
-    min-width: 300px;
+    width: 100%;
+    margin-bottom: 2rem;
 }
 
-/* Container for the service selection and location buttons */
-.gct-service-selection-container {
-    flex: 1 1 45%;
-    min-width: 250px;
-}
-
-/* Service title */
 .gct-service-title {
     font-size: 28.8px;
     font-weight: normal;
@@ -38,7 +67,7 @@
     font-family: larken, sans-serif;
 }
 
-/* Image container with fixed dimensions and centered */
+/* Image container with fixed dimensions - left aligned */
 .gct-service-image-container {
     height: 360px;
     width: 360px;
@@ -48,20 +77,13 @@
     border-radius: 5px;
 }
 
-/* Service image */
 .gct-service-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transition: transform 0.3s ease;
 }
 
-.gct-service-image:hover {
-    transform: scale(1.05);
-}
-
-/* Service description */
 .gct-service-description {
     margin-bottom: 1.5rem;
     color: inherit;
@@ -74,7 +96,6 @@
     margin-bottom: 1em;
 }
 
-/* Read more button */
 .gct-read-more-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -93,80 +114,35 @@
     text-decoration: none;
 }
 
-/* Service selection */
-.gct-service-selector {
-    margin-bottom: 1.5rem;
-}
-
-.gct-service-selector label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: inherit;
-    font-family: inherit;
-    font-size: inherit;
-    color: #254B45;
-    font-size: 24px;
-}
-
-.gct-service-select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: white;
-    color: inherit;
-    font-family: inherit;
-    font-size: inherit;
-}
-
-/* Location section title */
 .gct-location-section-title {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-    font-size: inherit;
-    color: inherit;
-    font-family: inherit;
-    font-weight: bold;
+    display: none;
 }
 
-/* Location buttons - 2 per row */
+/* Location buttons - grid layout */
 .gct-location-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 .gct-location-button {
-    flex: 1 1 calc(50% - 0.75rem);
-    min-width: calc(50% - 0.75rem);
-    padding: 0.75rem 1rem;
-    background-color: #f5f5f5;
-    color: #333 !important;
+    flex: 1 1 calc(25% - 0.5rem);
+    min-width: calc(25% - 0.5rem);
+    padding: 0.5rem 0.75rem;
+    background-color: #C8E2D4;
+    color: #254B45 !important;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
     text-align: center;
-    border: 1px solid #ddd;
+    border: none;
     font-family: inherit;
-    font-size: inherit;
-}
-
-/* Ensure single buttons don't take the full width */
-.gct-location-buttons a:only-child {
-    flex: 0 1 auto;
-    min-width: auto;
-}
-
-/* For 2 buttons, make them take half width each */
-.gct-location-buttons a:first-child:nth-last-child(2),
-.gct-location-buttons a:first-child:nth-last-child(2) ~ a {
-    flex: 1 1 calc(50% - 0.75rem);
-    min-width: calc(50% - 0.75rem);
+    font-size: 0.9rem;
 }
 
 .gct-location-button:hover {
-    background-color: #e5e5e5;
+    background-color: #A6D0B8;
     text-decoration: none;
 }
 
@@ -198,31 +174,30 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .gct-service-location-module {
-        flex-direction: column;
-    }
-    
-    .gct-service-info-container, 
-    .gct-service-selection-container {
-        flex: 1 1 100%;
-    }
-    
-    .gct-service-info-container {
-        margin-bottom: 1.5rem;
+    .gct-location-button {
+        flex: 1 1 calc(50% - 0.5rem);
+        min-width: calc(50% - 0.5rem);
     }
     
     .gct-service-image-container {
         height: 300px;
         width: 300px;
-    }
-    
-    .gct-location-button {
-        flex: 1 1 calc(50% - 0.75rem);
-        min-width: calc(50% - 0.75rem);
+        margin: 0 auto 1rem auto;
     }
 }
 
-/* Service Type Label */
-.gct-service-type-label {
-    display: none;
+/* Desktop layout */
+@media (min-width: 992px) {
+    .gct-service-info-content {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .gct-service-image-container {
+        flex: 0 0 360px;
+    }
+    
+    .gct-service-text-content {
+        flex: 1;
+    }
 } 

@@ -275,32 +275,8 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         <?php endif; ?>
         
         <div class="gct-service-location-module" data-nonce="<?php echo wp_create_nonce('gct_service_location_module_nonce'); ?>" data-service-type="<?php echo esc_attr($service_type); ?>">
-            <!-- Service Info Container (Left side) -->
-            <div class="gct-service-info-container">
-                <!-- Service info will be dynamically loaded via JS, but provide default for first load -->
-                
-                <?php if ($first_service) : 
-                    $title = $first_service->post_title;
-                    $content = $first_service->post_content;
-                    $image = get_the_post_thumbnail_url($first_service->ID, 'full');
-                    if (empty($image) && !empty($default_image)) {
-                        $image = $default_image;
-                    }
-                ?>
-                <h4 class="gct-service-title"><?php echo esc_html($title); ?></h4>
-                <?php if (!empty($image)) : ?>
-                <div class="gct-service-image-container">
-                    <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>" class="gct-service-image">
-                </div>
-                <?php endif; ?>
-                <div class="gct-service-description"><?php echo wp_kses_post(wpautop($content)); ?></div>
-                <a href="<?php echo esc_url(get_permalink($first_service->ID)); ?>" class="gct-read-more-button"><?php echo esc_html($read_more_text . ' ' . $title); ?></a>
-                <?php endif; ?>
-            </div>
-            
-            <!-- Service Selection Container (Right side) -->
+            <!-- Service Selection Container (Top) -->
             <div class="gct-service-selection-container">
-                <!-- Service Type Selector -->
                 <div class="gct-service-selector">
                     <label for="gct-service-select-<?php echo esc_attr($this->order_class_name); ?>"><?php echo esc_html($service_selector_label); ?></label>
                     <select id="gct-service-select-<?php echo esc_attr($this->order_class_name); ?>" class="gct-service-select">
@@ -312,26 +288,50 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                         <?php endforeach; ?>
                     </select>
                 </div>
-                
-                <!-- Location Section Title -->
-                <h3 class="gct-location-section-title"><?php echo esc_html($location_section_title); ?></h3>
-                
-                <!-- Location Buttons -->
-                <div class="gct-location-buttons">
-                    <!-- Location buttons will be dynamically loaded via JS -->
-                    <?php if ($first_service) : 
-                        $location_terms = get_the_terms($first_service->ID, 'location-category');
-                        if ($location_terms && !is_wp_error($location_terms) && !empty($location_terms)) :
-                            foreach ($location_terms as $term) : 
-                                $location_url = home_url('/resource/location/' . $term->slug . '/');
-                            ?>
-                                <a href="<?php echo esc_url($location_url); ?>" class="gct-location-button" data-location-id="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></a>
-                            <?php endforeach;
-                        else: ?>
-                            <p><?php esc_html_e('No locations available for this service.', 'gct-service-location-module'); ?></p>
-                        <?php endif;
-                    endif; ?>
+            </div>
+            
+            <!-- Service Info Container (Main content) -->
+            <div class="gct-service-info-container">
+                <?php if ($first_service) : 
+                    $title = $first_service->post_title;
+                    $content = $first_service->post_content;
+                    $image = get_the_post_thumbnail_url($first_service->ID, 'full');
+                    if (empty($image) && !empty($default_image)) {
+                        $image = $default_image;
+                    }
+                ?>
+                <div class="gct-service-info-content">
+                    <div class="gct-service-text-content">
+                        <h4 class="gct-service-title"><?php echo esc_html($title); ?></h4>
+                        <div class="gct-service-description"><?php echo wp_kses_post(wpautop($content)); ?></div>
+                        <a href="<?php echo esc_url(get_permalink($first_service->ID)); ?>" class="gct-read-more-button"><?php echo esc_html($read_more_text . ' ' . $title); ?></a>
+                    </div>
+                    
+                    <?php if (!empty($image)) : ?>
+                    <div class="gct-service-image-container">
+                        <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>" class="gct-service-image">
+                    </div>
+                    <?php endif; ?>
                 </div>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Location Buttons -->
+            <h3 class="gct-location-section-title"><?php echo esc_html($location_section_title); ?></h3>
+            <div class="gct-location-buttons">
+                <!-- Location buttons will be dynamically loaded via JS -->
+                <?php if ($first_service) : 
+                    $location_terms = get_the_terms($first_service->ID, 'location-category');
+                    if ($location_terms && !is_wp_error($location_terms) && !empty($location_terms)) :
+                        foreach ($location_terms as $term) : 
+                            $location_url = home_url('/resource/location/' . $term->slug . '/');
+                        ?>
+                            <a href="<?php echo esc_url($location_url); ?>" class="gct-location-button" data-location-id="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></a>
+                        <?php endforeach;
+                    else: ?>
+                        <p><?php esc_html_e('No locations available for this service.', 'gct-service-location-module'); ?></p>
+                    <?php endif;
+                endif; ?>
             </div>
         </div>
         <?php
