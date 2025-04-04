@@ -108,7 +108,8 @@ function gct_service_location_module_get_service_data() {
     $response = array(
         'id' => $service->ID,
         'title' => $service->post_title,
-        'content' => $service->post_content,
+        'content' => apply_filters('the_content', $service->post_content),
+        'permalink' => get_permalink($service->ID),
         'image' => $image,
         'locations' => $locations
     );

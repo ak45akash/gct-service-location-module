@@ -12,6 +12,8 @@
     flex-wrap: wrap;
     gap: 30px;
     margin-bottom: 40px;
+    position: relative;
+    transition: opacity 0.3s ease;
 }
 
 /* Container for the service image and description */
@@ -143,8 +145,27 @@
 
 /* Loading state */
 .gct-loading {
-    opacity: 0.5;
+    opacity: 0.6;
     pointer-events: none;
+}
+
+.gct-loading:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border-radius: 50%;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #f4b183;
+    animation: gct-spin 1s linear infinite;
+}
+
+@keyframes gct-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Fade transition */
