@@ -116,7 +116,8 @@
         let buttonsHtml = '';
         
         locations.forEach(function(location) {
-            buttonsHtml += `<a href="#" class="gct-location-button" data-location-id="${location.id}">${location.name}</a>`;
+            const locationUrl = gctServiceLocationModule.siteurl + '/resource/location/' + location.slug + '/';
+            buttonsHtml += `<a href="${locationUrl}" class="gct-location-button" data-location-id="${location.id}">${location.name}</a>`;
         });
         
         $locationButtons.html(buttonsHtml);

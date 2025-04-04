@@ -59,7 +59,8 @@ function gct_service_location_module_enqueue_scripts() {
         'gctServiceLocationModule',
         array(
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('gct_service_location_module_nonce')
+            'nonce' => wp_create_nonce('gct_service_location_module_nonce'),
+            'siteurl' => home_url()
         )
     );
 }

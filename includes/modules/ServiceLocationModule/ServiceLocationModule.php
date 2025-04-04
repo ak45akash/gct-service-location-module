@@ -322,8 +322,10 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                     <?php if ($first_service) : 
                         $location_terms = get_the_terms($first_service->ID, 'location-category');
                         if ($location_terms && !is_wp_error($location_terms) && !empty($location_terms)) :
-                            foreach ($location_terms as $term) : ?>
-                                <a href="#" class="gct-location-button" data-location-id="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></a>
+                            foreach ($location_terms as $term) : 
+                                $location_url = home_url('/resource/location/' . $term->slug . '/');
+                            ?>
+                                <a href="<?php echo esc_url($location_url); ?>" class="gct-location-button" data-location-id="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></a>
                             <?php endforeach;
                         else: ?>
                             <p><?php esc_html_e('No locations available for this service.', 'gct-service-location-module'); ?></p>
