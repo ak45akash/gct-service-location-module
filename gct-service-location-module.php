@@ -108,19 +108,19 @@ function gct_service_location_module_get_service_data() {
     // Get service type name
     $service_type_name = '';
     if (!empty($service_type)) {
-        $service_type_term = get_term_by('slug', $service_type, 'service_type');
+        $service_type_term = get_term_by('slug', $service_type, 'service-type');
         if ($service_type_term && !is_wp_error($service_type_term)) {
             $service_type_name = $service_type_term->name;
         } else {
             // If specific service type not found, try to get the service's own service type
-            $service_terms = get_the_terms($service_id, 'service_type');
+            $service_terms = get_the_terms($service_id, 'service-type');
             if ($service_terms && !is_wp_error($service_terms) && !empty($service_terms)) {
                 $service_type_name = $service_terms[0]->name;
             }
         }
     } else {
         // If no service type specified, get from the service itself
-        $service_terms = get_the_terms($service_id, 'service_type');
+        $service_terms = get_the_terms($service_id, 'service-type');
         if ($service_terms && !is_wp_error($service_terms) && !empty($service_terms)) {
             $service_type_name = $service_terms[0]->name;
         }

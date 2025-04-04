@@ -110,7 +110,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         );
         
         $service_types = get_terms(array(
-            'taxonomy'   => 'service_type',
+            'taxonomy'   => 'service-type',
             'hide_empty' => true,
         ));
         
@@ -143,7 +143,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         if (!empty($service_type)) {
             $args['tax_query'] = array(
                 array(
-                    'taxonomy' => 'service_type',
+                    'taxonomy' => 'service-type',
                     'field'    => 'slug',
                     'terms'    => $service_type,
                 ),
@@ -198,7 +198,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         if (!empty($service_type)) {
             $args['tax_query'] = array(
                 array(
-                    'taxonomy' => 'service_type',
+                    'taxonomy' => 'service-type',
                     'field'    => 'slug',
                     'terms'    => $service_type,
                 ),
@@ -219,7 +219,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                 if (empty($service_type)) {
                     $first_service = $temp_service;
                 } else {
-                    $service_terms = get_the_terms($temp_service->ID, 'service_type');
+                    $service_terms = get_the_terms($temp_service->ID, 'service-type');
                     if ($service_terms && !is_wp_error($service_terms)) {
                         foreach ($service_terms as $term) {
                             if ($term->slug === $service_type) {
@@ -240,9 +240,15 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         // Get the service type name for display
         $service_type_name = '';
         if (!empty($service_type)) {
-            $service_type_term = get_term_by('slug', $service_type, 'service_type');
+            $service_type_term = get_term_by('slug', $service_type, 'service-type');
             if ($service_type_term && !is_wp_error($service_type_term)) {
                 $service_type_name = $service_type_term->name;
+            }
+        } else if ($first_service) {
+            // If no service type specified but we have a service, get type from the service
+            $service_terms = get_the_terms($first_service->ID, 'service-type');
+            if ($service_terms && !is_wp_error($service_terms) && !empty($service_terms)) {
+                $service_type_name = $service_terms[0]->name;
             }
         }
         
