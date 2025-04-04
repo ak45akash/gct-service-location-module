@@ -45,6 +45,15 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                 'description'     => esc_html__('The main title displayed above the module.', 'gct-service-location-module'),
                 'toggle_slug'     => 'main_content',
             ),
+            'service_type' => array(
+                'label'           => esc_html__('Service Type', 'gct-service-location-module'),
+                'type'            => 'select',
+                'option_category' => 'basic_option',
+                'options'         => $this->get_service_type_options(),
+                'default'         => '',
+                'description'     => esc_html__('Filter services by this service type.', 'gct-service-location-module'),
+                'toggle_slug'     => 'main_content',
+            ),
             'default_service' => array(
                 'label'           => esc_html__('Default Service', 'gct-service-location-module'),
                 'type'            => 'select',
@@ -92,6 +101,28 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
     }
     
     /**
+     * Get service type options for the dropdown
+     */
+    private function get_service_type_options() {
+        $options = array(
+            '' => esc_html__('Select a Service Type', 'gct-service-location-module'),
+        );
+        
+        $service_types = get_terms(array(
+            'taxonomy'   => 'service_type',
+            'hide_empty' => true,
+        ));
+        
+        if (!is_wp_error($service_types) && !empty($service_types)) {
+            foreach ($service_types as $service_type) {
+                $options[$service_type->slug] = $service_type->name;
+            }
+        }
+        
+        return $options;
+    }
+    
+    /**
      * Get service options for the dropdown
      */
     private function get_service_options() {
@@ -99,13 +130,15 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
             '' => esc_html__('Select a Service', 'gct-service-location-module'),
         );
         
-        $services = get_posts(array(
+        $args = array(
             'post_type'      => 'service',
             'posts_per_page' => -1,
             'post_status'    => 'publish',
             'orderby'        => 'title',
             'order'          => 'ASC',
-        ));
+        );
+        
+        $services = get_posts($args);
         
         if (!empty($services)) {
             foreach ($services as $service) {
@@ -120,6 +153,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
      * Render the module output
      */
     public function render($attrs, $content = null, $render_slug) {
+        $service_type           = $this->props['service_type'];
         $default_service        = $this->props['default_service'];
         $service_selector_label = $this->props['service_selector_label'];
         $location_section_title = $this->props['location_section_title'];
@@ -127,23 +161,55 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         $module_title           = $this->props['module_title'];
         $default_image          = $this->props['default_image'];
         
-        // Get all services
-        $services = get_posts(array(
+        // Get services based on service type
+        $args = array(
             'post_type'      => 'service',
             'posts_per_page' => -1,
             'post_status'    => 'publish',
             'orderby'        => 'title',
             'order'          => 'ASC',
-        ));
+        );
+        
+        // Filter services by service type if specified
+        if (!empty($service_type)) {
+            $args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'service_type',
+                    'field'    => 'slug',
+                    'terms'    => $service_type,
+                ),
+            );
+        }
+        
+        $services = get_posts($args);
         
         // Get default service for initial display
         $first_service = null;
         
         if (!empty($default_service)) {
-            // If a default service is selected, use that
-            $first_service = get_post($default_service);
-        } elseif (!empty($services)) {
-            // Otherwise, use the first service in the list
+            // If a default service is selected, use that if it belongs to the current service type
+            $temp_service = get_post($default_service);
+            
+            if ($temp_service) {
+                // Check if it belongs to the selected service type
+                if (empty($service_type)) {
+                    $first_service = $temp_service;
+                } else {
+                    $service_terms = get_the_terms($temp_service->ID, 'service_type');
+                    if ($service_terms && !is_wp_error($service_terms)) {
+                        foreach ($service_terms as $term) {
+                            if ($term->slug === $service_type) {
+                                $first_service = $temp_service;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // If no valid default, use first filtered service
+        if (!$first_service && !empty($services)) {
             $first_service = $services[0];
         }
         
@@ -155,7 +221,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         <h1 class="gct-module-title"><?php echo esc_html($module_title); ?></h1>
         <?php endif; ?>
         
-        <div class="gct-service-location-module" data-nonce="<?php echo wp_create_nonce('gct_service_location_module_nonce'); ?>">
+        <div class="gct-service-location-module" data-nonce="<?php echo wp_create_nonce('gct_service_location_module_nonce'); ?>" data-service-type="<?php echo esc_attr($service_type); ?>">
             <!-- Service Info Container (Left side) -->
             <div class="gct-service-info-container">
                 <!-- Service info will be dynamically loaded via JS, but provide default for first load -->

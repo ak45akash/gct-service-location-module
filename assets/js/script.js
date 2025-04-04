@@ -17,6 +17,7 @@
             const $module = $(this);
             const $serviceSelect = $module.find('.gct-service-select');
             const nonce = $module.data('nonce');
+            const serviceType = $module.data('service-type');
 
             // Handle service selection change
             $serviceSelect.on('change', function() {
@@ -25,6 +26,12 @@
                 
                 updateServiceData($module, serviceId, nonce);
             });
+
+            // Set the first option as selected if none is selected
+            if (!$serviceSelect.val() && $serviceSelect.find('option').length > 1) {
+                $serviceSelect.find('option:eq(1)').prop('selected', true);
+                $serviceSelect.trigger('change');
+            }
         });
     }
 
