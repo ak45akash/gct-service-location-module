@@ -278,9 +278,6 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
             <!-- Service Info Container (Left side) -->
             <div class="gct-service-info-container">
                 <!-- Service info will be dynamically loaded via JS, but provide default for first load -->
-                <?php if (!empty($service_type_name)) : ?>
-                <div class="gct-service-type-label"><?php echo esc_html($service_type_name); ?></div>
-                <?php endif; ?>
                 
                 <?php if ($first_service) : 
                     $title = $first_service->post_title;

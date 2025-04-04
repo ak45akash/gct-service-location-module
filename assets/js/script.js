@@ -88,18 +88,12 @@
      */
     function updateServiceInfo($serviceInfo, data, serviceType) {
         let imageHtml = '';
-        let serviceTypeHtml = '';
         
         if (data.image) {
             imageHtml = `<div class="gct-service-image-container"><img src="${data.image}" alt="${data.title}" class="gct-service-image"></div>`;
         }
         
-        if (data.service_type_name) {
-            serviceTypeHtml = `<div class="gct-service-type-label">${data.service_type_name}</div>`;
-        }
-        
         $serviceInfo.html(`
-            ${serviceTypeHtml}
             <div class="gct-service-title">${data.title}</div>
             ${imageHtml}
             <div class="gct-service-description">${data.content}</div>
