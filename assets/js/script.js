@@ -13,27 +13,17 @@
      * Initialize the Service Location Module
      */
     function initServiceLocationModule() {
-        const $modules = $('.gct-service-location-module');
-
-        if (!$modules.length) {
-            return;
-        }
-
-        $modules.each(function() {
+        $('.gct-service-location-module').each(function() {
             const $module = $(this);
-            const $serviceSelect = $module.find('.gct-service-selector select');
-            const $serviceInfo = $module.find('.gct-service-info-container');
-            const $locationButtons = $module.find('.gct-location-buttons');
-
-            // Initialize with default service
-            if ($serviceSelect.val()) {
-                updateServiceData($module, $serviceSelect.val());
-            }
+            const $serviceSelect = $module.find('.gct-service-select');
+            const nonce = $module.data('nonce');
 
             // Handle service selection change
             $serviceSelect.on('change', function() {
                 const serviceId = $(this).val();
-                updateServiceData($module, serviceId);
+                if (!serviceId) return;
+                
+                updateServiceData($module, serviceId, nonce);
             });
         });
     }
@@ -43,12 +33,9 @@
      * 
      * @param {jQuery} $module The module element
      * @param {number} serviceId The selected service ID
+     * @param {string} nonce Security nonce
      */
-    function updateServiceData($module, serviceId) {
-        if (!serviceId) {
-            return;
-        }
-
+    function updateServiceData($module, serviceId, nonce) {
         const $serviceInfo = $module.find('.gct-service-info-container');
         const $locationButtons = $module.find('.gct-location-buttons');
 
@@ -62,7 +49,7 @@
             data: {
                 action: 'gct_service_location_module_get_service_data',
                 service_id: serviceId,
-                nonce: gctServiceLocationModule.nonce
+                nonce: nonce || gctServiceLocationModule.nonce
             },
             success: function(response) {
                 if (response.success && response.data) {
@@ -71,13 +58,10 @@
                     
                     // Update location buttons
                     updateLocationButtons($locationButtons, response.data.locations);
-                    
-                    // Apply fade transition
-                    applyFadeTransition($module);
                 }
             },
-            error: function() {
-                console.error('Error fetching service data');
+            error: function(xhr, status, error) {
+                console.error('Error fetching service data:', error);
             },
             complete: function() {
                 // Remove loading state
@@ -103,7 +87,7 @@
             <div class="gct-service-title">${data.title}</div>
             ${imageHtml}
             <div class="gct-service-description">${data.content}</div>
-            <a href="#" class="gct-read-more-button">Read more about ${data.title}</a>
+            <a href="${data.permalink}" class="gct-read-more-button">Read more about ${data.title}</a>
         `);
     }
 
@@ -126,18 +110,6 @@
         });
         
         $locationButtons.html(buttonsHtml);
-    }
-
-    /**
-     * Apply fade transition effect
-     * 
-     * @param {jQuery} $module The module element
-     */
-    function applyFadeTransition($module) {
-        $module.addClass('gct-fade-transition');
-        setTimeout(function() {
-            $module.removeClass('gct-fade-transition');
-        }, 300);
     }
 
 })(jQuery); 
