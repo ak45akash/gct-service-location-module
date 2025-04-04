@@ -94,7 +94,7 @@
         }
         
         $serviceInfo.html(`
-            <div class="gct-service-title">${data.title}</div>
+            <h4 class="gct-service-title">${data.title}</h4>
             ${imageHtml}
             <div class="gct-service-description">${data.content}</div>
             <a href="${data.permalink}" class="gct-read-more-button">Read more about ${data.title}</a>

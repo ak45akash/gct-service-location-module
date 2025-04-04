@@ -271,7 +271,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         
         ?>
         <?php if (!empty($module_title)) : ?>
-        <h1 class="gct-module-title"><?php echo esc_html($module_title); ?></h1>
+        <h2 class="gct-module-title"><?php echo esc_html($module_title); ?></h2>
         <?php endif; ?>
         
         <div class="gct-service-location-module" data-nonce="<?php echo wp_create_nonce('gct_service_location_module_nonce'); ?>" data-service-type="<?php echo esc_attr($service_type); ?>">
@@ -287,7 +287,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                         $image = $default_image;
                     }
                 ?>
-                <div class="gct-service-title"><?php echo esc_html($title); ?></div>
+                <h4 class="gct-service-title"><?php echo esc_html($title); ?></h4>
                 <?php if (!empty($image)) : ?>
                 <div class="gct-service-image-container">
                     <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>" class="gct-service-image">

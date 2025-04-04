@@ -4,9 +4,10 @@
 .gct-module-title {
     margin-bottom: 1.5rem;
     width: 100%;
-    color: inherit;
-    font-size: inherit;
-    font-family: inherit;
+    color: #254B45;
+    font-size: 35.2px;
+    font-family: larken, sans-serif;
+    font-weight: normal;
 }
 
 .gct-service-location-module {
@@ -30,11 +31,11 @@
 
 /* Service title */
 .gct-service-title {
-    font-size: inherit;
-    font-weight: bold;
+    font-size: 28.8px;
+    font-weight: normal;
     margin-bottom: 1rem;
-    color: inherit;
-    font-family: inherit;
+    color: #254B45;
+    font-family: larken, sans-serif;
 }
 
 /* Image container with fixed dimensions and centered */
@@ -43,7 +44,7 @@
     width: 360px;
     max-width: 100%;
     overflow: hidden;
-    margin: 0 auto 1rem auto;
+    margin: 0 0 1rem 0;
     border-radius: 5px;
 }
 
@@ -104,6 +105,8 @@
     color: inherit;
     font-family: inherit;
     font-size: inherit;
+    font-color: #254B45;
+    font-size: 24px;
 }
 
 .gct-service-select {
@@ -138,13 +141,13 @@
     flex: 1 1 calc(50% - 0.75rem);
     min-width: calc(50% - 0.75rem);
     padding: 0.75rem 1rem;
-    background-color: #E9993E;
-    color: white !important;
+    background-color: #f5f5f5;
+    color: #333 !important;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
     text-align: center;
-    border: none;
+    border: 1px solid #ddd;
     font-family: inherit;
     font-size: inherit;
 }
@@ -163,7 +166,7 @@
 }
 
 .gct-location-button:hover {
-    background-color: #264B45;
+    background-color: #e5e5e5;
     text-decoration: none;
 }
 
