@@ -7,10 +7,28 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        @font-face {
+            font-family: 'Larken';
+            src: url('https://gmct.com.au/wp-content/themes/gmct/fonts/larken-regular-webfont.woff2') format('woff2'),
+                 url('https://gmct.com.au/wp-content/themes/gmct/fonts/larken-regular-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Larken-Light';
+            src: url('https://gmct.com.au/wp-content/themes/gmct/fonts/larken-light-webfont.woff2') format('woff2'),
+                 url('https://gmct.com.au/wp-content/themes/gmct/fonts/larken-light-webfont.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600&display=swap');
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            font-family: 'Libre Franklin', sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: rgb(37, 75, 69);
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -27,6 +45,7 @@
         h1 {
             font-size: 28px;
             margin-bottom: 20px;
+            font-family: 'Larken-Light', 'larken', sans-serif;
         }
         .preview-controls {
             background-color: #f5f5f5;
@@ -81,6 +100,26 @@
             background-color: #f9f9f9;
             border: 1px solid #ddd;
         }
+        
+        /* Additional styles to match the image layout exactly */
+        .gct-service-content-container {
+            margin-top: 30px;
+            border: none;
+            padding: 0;
+        }
+        
+        .gct-service-content-wrapper {
+            margin-bottom: 30px;
+        }
+        
+        .gct-service-image-container {
+            border-radius: 0;
+            overflow: hidden;
+        }
+        
+        .gct-location-buttons {
+            padding-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +132,10 @@
             <h2>Module Controls</h2>
             <p>These controls simulate the Divi admin settings for the module.</p>
             <form id="preview-form">
+                <div class="form-group">
+                    <label for="module-title">Module Title:</label>
+                    <input type="text" id="module-title" name="module-title" value="Browse Locations by Service">
+                </div>
                 <div class="form-group">
                     <label for="service-type">Default Service Type:</label>
                     <select id="service-type" name="service-type">
@@ -120,44 +163,59 @@
             gmct.com.au/services
         </div>
 
-        <!-- Page title matching the original -->
-        <h1 class="page-title">Browse locations by service</h1>
-
+        <!-- Module preview based on the new design -->
         <div class="module-preview">
+            <!-- Module title -->
+            <h2 class="gct-module-title">Browse Locations by Service</h2>
+            
+            <!-- Module wrapper -->
             <div class="gct-service-location-module">
-                <!-- Service Info Container (Left side) -->
-                <div class="gct-service-info-container">
-                    <div class="gct-service-title">Columbaria</div>
-                    <img src="https://placehold.co/800x600/C8E2D4/254B45?text=Service+Image" alt="Columbaria" class="gct-service-image">
-                    <div class="gct-service-description">
-                        <p>A columbarium is a traditional and ornate type of memorial wall usually located within a public mausoleum.</p>
-                    </div>
-                    <a href="#" class="gct-read-more-button">Read more about Columbaria</a>
+                <!-- Service dropdown at the top -->
+                <div class="gct-service-dropdown-container">
+                    <select class="gct-service-select">
+                        <option value="">Select a service</option>
+                        <option value="rose-memorials" selected>Rose Memorials</option>
+                        <option value="cremation">Cremation</option>
+                        <option value="garden-memorial">Garden Memorial</option>
+                        <option value="lawn-grave-headstone">Lawn Grave - Headstone</option>
+                        <option value="lawn-grave-plaque">Lawn Grave - Plaque</option>
+                        <option value="monumental-grave">Monumental Grave</option>
+                        <option value="scattering">Scattering</option>
+                    </select>
                 </div>
                 
-                <!-- Service Selection Container (Right side) -->
-                <div class="gct-service-selection-container">
-                    <!-- Service Type Selector -->
-                    <div class="gct-service-selector">
-                        <label for="gct-service-select">Service</label>
-                        <select id="gct-service-select" class="gct-service-select">
-                            <option value="">Select a service</option>
-                            <option value="columbaria" selected>Columbaria</option>
-                            <option value="book-of-remembrance">Book Of Remembrance</option>
-                            <option value="memorial-bench">Memorial Bench Seat</option>
-                            <option value="garden-memorial">Native Garden Memorial</option>
-                            <option value="personalized-garden">Personalised Garden Memorials</option>
-                            <option value="boulder-memorial">Boulder Memorial</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Location Section Title -->
-                    <h3 class="gct-location-section-title">Locations</h3>
-                    
-                    <!-- Location Buttons -->
-                    <div class="gct-location-buttons">
-                        <a href="#" class="gct-location-button" data-location-id="1">Fawkner Memorial Park</a>
-                        <a href="#" class="gct-location-button" data-location-id="2">Preston Cemetery</a>
+                <!-- Service content container -->
+                <div class="gct-service-content-container">
+                    <!-- Service info container -->
+                    <div class="gct-service-info-container">
+                        <div class="gct-service-content-wrapper">
+                            <!-- Image on the left (30%) -->
+                            <div class="gct-service-image-container">
+                                <img src="https://placehold.co/800x600/C8E2D4/254B45?text=Service+Image" alt="Rose Memorials" class="gct-service-image">
+                            </div>
+                            
+                            <!-- Content on the right (70%) -->
+                            <div class="gct-service-content">
+                                <h3 class="gct-service-title">Rose Memorials</h3>
+                                <div class="gct-service-description">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+
+
+                                <!-- Location buttons in a grid -->
+                                <div class="gct-location-buttons">
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                    <a href="#" class="gct-location-button">Location Name</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,12 +227,13 @@
             
             <h3>Available Services:</h3>
             <ul>
-                <li><strong>Columbaria</strong> - A columbarium is a traditional and ornate type of memorial wall usually located within a public mausoleum.</li>
-                <li><strong>Book Of Remembrance</strong> - A memorial book where names and details of loved ones can be inscribed.</li>
-                <li><strong>Memorial Bench Seat</strong> - A dedicated bench seat placed in a garden or other suitable location.</li>
-                <li><strong>Native Garden Memorial</strong> - A memorial placed within a garden featuring native Australian plants.</li>
-                <li><strong>Personalised Garden Memorials</strong> - Custom memorials integrated into garden settings.</li>
-                <li><strong>Boulder Memorial</strong> - Natural stone memorials with commemorative plaques.</li>
+                <li><strong>Rose Memorials</strong> - A beautiful memorial option featuring roses and garden elements</li>
+                <li><strong>Cremation</strong> - Cremation services with various memorialization options</li>
+                <li><strong>Garden Memorial</strong> - Memorial options set within garden environments</li>
+                <li><strong>Lawn Grave - Headstone</strong> - Traditional lawn graves with headstone memorials</li>
+                <li><strong>Lawn Grave - Plaque</strong> - Lawn graves with plaque memorials</li>
+                <li><strong>Monumental Grave</strong> - Full monument grave options</li>
+                <li><strong>Scattering</strong> - Options for scattering ashes in memorial gardens</li>
             </ul>
             
             <h3>Available Locations:</h3>
@@ -187,122 +246,180 @@
                 <li>Portarlington Cemetery</li>
                 <li>Queenscliff Cemetery</li>
                 <li>Greater Geelong</li>
-                <li>Barrabool Hills Cemetery</li>
-                <li>Flinders Memorial Park</li>
-                <li>Geelong Eastern Cemetery</li>
             </ul>
         </div>
     </div>
 
     <script>
-        // Mock data for preview
-        const mockServices = {
-            'columbaria': {
-                title: 'Columbaria',
-                image: 'https://placehold.co/800x600/C8E2D4/254B45?text=Columbaria',
-                content: '<p>A columbarium is a traditional and ornate type of memorial wall usually located within a public mausoleum.</p>',
-                locations: [
-                    { id: 1, name: 'Fawkner Memorial Park' },
-                    { id: 2, name: 'Preston Cemetery' }
-                ]
-            },
-            'book-of-remembrance': {
-                title: 'Book Of Remembrance',
-                image: 'https://placehold.co/800x600/C8E2D4/254B45?text=Book+Of+Remembrance',
-                content: '<p>A memorial book where names and details of loved ones can be inscribed.</p>',
-                locations: [
-                    { id: 3, name: 'Bellarine Memorial Park' },
-                    { id: 7, name: 'Greater Geelong' }
-                ]
-            },
-            'memorial-bench': {
-                title: 'Memorial Bench Seat',
-                image: 'https://placehold.co/800x600/C8E2D4/254B45?text=Memorial+Bench+Seat',
-                content: '<p>A dedicated bench seat placed in a garden or other suitable location.</p>',
-                locations: [
-                    { id: 1, name: 'Fawkner Memorial Park' },
-                    { id: 3, name: 'Bellarine Memorial Park' },
-                    { id: 10, name: 'Flinders Memorial Park' }
-                ]
-            },
-            'garden-memorial': {
-                title: 'Native Garden Memorial',
-                image: 'https://placehold.co/800x600/C8E2D4/254B45?text=Native+Garden+Memorial',
-                content: '<p>A memorial placed within a garden featuring native Australian plants.</p>',
-                locations: [
-                    { id: 7, name: 'Greater Geelong' },
-                    { id: 9, name: 'Barrabool Hills Cemetery' }
-                ]
-            },
-            'personalized-garden': {
-                title: 'Personalised Garden Memorials',
-                image: 'https://placehold.co/800x600/C8E2D4/254B45?text=Personalised+Garden+Memorials',
-                content: '<p>Custom memorials integrated into garden settings.</p>',
-                locations: [
-                    { id: 3, name: 'Bellarine Memorial Park' },
-                    { id: 10, name: 'Flinders Memorial Park' },
-                    { id: 11, name: 'Geelong Eastern Cemetery' }
-                ]
-            },
-            'boulder-memorial': {
-                title: 'Boulder Memorial',
-                image: 'https://placehold.co/800x600/C8E2D4/254B45?text=Boulder+Memorial',
-                content: '<p>Natural stone memorials with commemorative plaques.</p>',
-                locations: [
-                    { id: 1, name: 'Fawkner Memorial Park' },
-                    { id: 9, name: 'Barrabool Hills Cemetery' }
-                ]
-            }
-        };
-        
-        // Preview functionality
+        // Simple preview control functionality
         $(document).ready(function() {
-            const $serviceSelect = $('.gct-service-select');
-            const $serviceInfo = $('.gct-service-info-container');
-            const $locationButtons = $('.gct-location-buttons');
-            
-            // Handle service selection change
-            $serviceSelect.on('change', function() {
-                const serviceId = $(this).val();
-                if (serviceId && mockServices[serviceId]) {
-                    updatePreview(serviceId);
-                }
-            });
-            
-            // Update preview based on form values
+            // Initialize custom dropdown for the preview
+            initPreviewCustomDropdown();
+
             $('#update-preview').on('click', function() {
-                const serviceLabel = $('#service-label').val();
+                const moduleTitle = $('#module-title').val();
                 const locationTitle = $('#location-title').val();
                 
-                // Update labels in the preview
-                $('.gct-service-selector label').text(serviceLabel);
+                // Update module title
+                $('.gct-module-title').text(moduleTitle);
+                
+                // Update location section title
                 $('.gct-location-section-title').text(locationTitle);
             });
             
-            // Function to update preview
-            function updatePreview(serviceId) {
-                const service = mockServices[serviceId];
+            // Simple service selector simulation
+            $('.gct-service-select').on('change', function() {
+                const selectedService = $(this).val();
+                updatePreviewContent(selectedService);
+            });
+            
+            // Initialize the preview with the default selected service
+            updatePreviewContent($('.gct-service-select').val());
+            
+            /**
+             * Initialize custom dropdown for the preview
+             */
+            function initPreviewCustomDropdown() {
+                const $originalSelect = $('.gct-service-select');
+                const $dropdownContainer = $('.gct-service-dropdown-container');
                 
-                // Update service info with image below title
-                $serviceInfo.html(`
-                    <div class="gct-service-title">${service.title}</div>
-                    <img src="${service.image}" alt="${service.title}" class="gct-service-image">
-                    <div class="gct-service-description">${service.content}</div>
-                    <a href="#" class="gct-read-more-button">Read more about ${service.title}</a>
-                `);
+                // Create the custom dropdown structure
+                const $customSelect = $('<div class="gct-custom-select"></div>');
+                const $selectedDiv = $('<div class="gct-select-selected"></div>');
+                const $optionsDiv = $('<div class="gct-select-items"></div>');
                 
-                // Update location buttons
-                if (!service.locations || !service.locations.length) {
-                    $locationButtons.html('<p>No locations available for this service.</p>');
-                    return;
-                }
+                // Get currently selected value
+                const selectedValue = $originalSelect.val();
                 
-                let buttonsHtml = '';
-                service.locations.forEach(function(location) {
-                    buttonsHtml += `<a href="#" class="gct-location-button" data-location-id="${location.id}">${location.name}</a>`;
+                // Add options to custom dropdown
+                $originalSelect.find('option').each(function() {
+                    const value = $(this).val();
+                    const text = $(this).text();
+                    
+                    if (value) { // Skip the empty placeholder option
+                        // Only add to dropdown list if not currently selected
+                        if (value !== selectedValue) {
+                            const $option = $('<div data-value="' + value + '">' + text + '</div>');
+                            $optionsDiv.append($option);
+                            
+                            // Add click event to each option
+                            $option.on('click', function() {
+                                const newValue = $(this).data('value');
+                                
+                                // Update the original select and trigger change
+                                $originalSelect.val(newValue).trigger('change');
+                                
+                                // Update the custom dropdown display
+                                $selectedDiv.text($(this).text());
+                                
+                                // Rebuild the dropdown options
+                                rebuildPreviewDropdownOptions($optionsDiv, $originalSelect, newValue, $selectedDiv);
+                                
+                                // Close the dropdown
+                                $selectedDiv.removeClass('active');
+                                $optionsDiv.hide();
+                            });
+                        }
+                    }
                 });
                 
-                $locationButtons.html(buttonsHtml);
+                // Set initial selected text
+                const selectedText = $originalSelect.find('option:selected').text() || 'Select an option';
+                $selectedDiv.text(selectedText);
+                
+                // Toggle dropdown on click
+                $selectedDiv.on('click', function() {
+                    $(this).toggleClass('active');
+                    $optionsDiv.toggle();
+                });
+                
+                // Add custom dropdown to the container
+                $customSelect.append($selectedDiv).append($optionsDiv);
+                $dropdownContainer.append($customSelect);
+                
+                // Hide original select
+                $originalSelect.hide();
+                
+                // Close custom dropdowns when clicking outside
+                $(document).on('click', function(e) {
+                    if (!$(e.target).closest('.gct-custom-select').length) {
+                        $('.gct-select-selected').removeClass('active');
+                        $('.gct-select-items').hide();
+                    }
+                });
+            }
+            
+            /**
+             * Rebuild dropdown options to exclude the currently selected option
+             */
+            function rebuildPreviewDropdownOptions($optionsDiv, $originalSelect, selectedValue, $selectedDiv) {
+                // Clear existing options
+                $optionsDiv.empty();
+                
+                // Add options to custom dropdown
+                $originalSelect.find('option').each(function() {
+                    const value = $(this).val();
+                    const text = $(this).text();
+                    
+                    if (value && value !== selectedValue) { // Skip empty and selected options
+                        const $option = $('<div data-value="' + value + '">' + text + '</div>');
+                        $optionsDiv.append($option);
+                        
+                        // Add click event to each option
+                        $option.on('click', function() {
+                            const newValue = $(this).data('value');
+                            
+                            // Update the original select and trigger change
+                            $originalSelect.val(newValue).trigger('change');
+                            
+                            // Update the custom dropdown display
+                            $selectedDiv.text($(this).text());
+                            
+                            // Rebuild the dropdown options
+                            rebuildPreviewDropdownOptions($optionsDiv, $originalSelect, newValue, $selectedDiv);
+                            
+                            // Close the dropdown
+                            $selectedDiv.removeClass('active');
+                            $optionsDiv.hide();
+                        });
+                    }
+                });
+            }
+            
+            /**
+             * Update the preview content based on selected service
+             */
+            function updatePreviewContent(selectedService) {
+                let title, content;
+                
+                // Just for demo purposes - you would use AJAX in the real implementation
+                if (selectedService === 'cremation') {
+                    title = 'Cremation';
+                    content = '<p>Our cremation services provide a range of options for families. We offer both traditional and contemporary approaches to cremation.</p><p>Cremation allows for various memorial options including columbarium niches, scattering gardens, or keeping remains in a personal urn.</p>';
+                } else if (selectedService === 'garden-memorial') {
+                    title = 'Garden Memorial';
+                    content = '<p>Garden memorials offer a peaceful, natural setting to remember your loved ones. These memorials are integrated into beautiful garden environments.</p><p>Options include dedicated trees, shrubs, garden beds or specialized memorial features surrounded by natural beauty.</p>';
+                } else if (selectedService === 'lawn-grave-headstone') {
+                    title = 'Lawn Grave - Headstone';
+                    content = '<p>Lawn graves with headstones combine the simplicity of lawn areas with the personalization of a traditional headstone memorial.</p><p>These graves feature a manicured lawn area with a headstone at the head of the grave, allowing for personalized inscriptions and designs.</p>';
+                } else if (selectedService === 'lawn-grave-plaque') {
+                    title = 'Lawn Grave - Plaque';
+                    content = '<p>Lawn graves with plaques offer a simple, elegant memorial option. The grave is covered with lawn, with a plaque set flush with the ground.</p><p>This creates a clean, uniform appearance while still allowing for personalized inscriptions and small decorative elements.</p>';
+                } else if (selectedService === 'monumental-grave') {
+                    title = 'Monumental Grave';
+                    content = '<p>Monumental graves feature full monuments that cover the grave area. These can be highly personalized with different materials, designs and sizes.</p><p>Monuments typically include a headstone with inscription and may also include side pieces, covers, or other decorative elements.</p>';
+                } else if (selectedService === 'scattering') {
+                    title = 'Scattering';
+                    content = '<p>Scattering provides a way to return your loved one to nature in a special location. We offer dedicated scattering gardens in peaceful settings.</p><p>Memorial options are available to mark the location where ashes have been scattered, providing a place for remembrance and reflection.</p>';
+                } else {
+                    title = 'Rose Memorials';
+                    content = '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
+                }
+                
+                // Update content
+                $('.gct-service-title').text(title);
+                $('.gct-service-description').html(content);
+                $('.gct-service-image').attr('alt', title);
             }
         });
     </script>

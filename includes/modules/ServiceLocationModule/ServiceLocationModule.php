@@ -191,152 +191,177 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
      * Render the module output
      */
     public function render($attrs, $content = null, $render_slug) {
-        $service_type           = $this->props['service_type'];
-        $default_service        = $this->props['default_service'];
-        $service_selector_label = $this->props['service_selector_label'];
-        $location_section_title = $this->props['location_section_title'];
-        $read_more_text         = $this->props['read_more_text'];
-        $module_title           = $this->props['module_title'];
-        $default_image          = $this->props['default_image'];
-        
-        // Get services based on service type
-        $args = array(
-            'post_type'      => 'service',
-            'posts_per_page' => -1,
-            'post_status'    => 'publish',
-            'orderby'        => 'title',
-            'order'          => 'ASC',
-        );
-        
-        // Filter services by service type if specified
-        if (!empty($service_type)) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'service-type',
-                    'field'    => 'slug',
-                    'terms'    => $service_type,
-                ),
-            );
-        }
-        
-        $services = get_posts($args);
-        
-        // Get default service for initial display
-        $first_service = null;
-        
-        if (!empty($default_service)) {
-            // If a default service is selected, use that if it belongs to the current service type
-            $temp_service = get_post($default_service);
-            
-            if ($temp_service) {
-                // Check if it belongs to the selected service type
-                if (empty($service_type)) {
-                    $first_service = $temp_service;
-                } else {
-                    $service_terms = get_the_terms($temp_service->ID, 'service-type');
-                    if ($service_terms && !is_wp_error($service_terms)) {
-                        foreach ($service_terms as $term) {
-                            if ($term->slug === $service_type) {
-                                $first_service = $temp_service;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        // If no valid default, use first filtered service
-        if (!$first_service && !empty($services)) {
-            $first_service = $services[0];
-        }
-        
-        // Get the service type name for display
+        // Get the service type name
         $service_type_name = '';
+        $service_type = $this->props['default_service_type'];
         if (!empty($service_type)) {
             $service_type_term = get_term_by('slug', $service_type, 'service-type');
             if ($service_type_term && !is_wp_error($service_type_term)) {
                 $service_type_name = $service_type_term->name;
             }
-        } else if ($first_service) {
-            // If no service type specified but we have a service, get type from the service
-            $service_terms = get_the_terms($first_service->ID, 'service-type');
-            if ($service_terms && !is_wp_error($service_terms) && !empty($service_terms)) {
-                $service_type_name = $service_terms[0]->name;
+        }
+        
+        // Get props with defaults
+        $module_title = isset($this->props['module_title']) ? $this->props['module_title'] : esc_html__('Browse Locations by Service', 'gct-service-location-module');
+        $service_selector_label = $this->props['service_selector_label'];
+        $location_section_title = $this->props['location_section_title'];
+        $default_service = $this->props['default_service'];
+        
+        // Get service options (already pre-processed during process_dynamic_content)
+        $service_options = $this->service_options;
+        
+        // Check if we're in preview mode
+        $is_preview = gct_is_divi_preview_mode();
+        
+        // If in preview mode, create a fake service object for display purposes
+        if ($is_preview) {
+            // Create a sample dropdown of services
+            $service_options = array(
+                '' => 'Select a service',
+                'sample-service-1' => 'Rose Memorials',
+                'sample-service-2' => 'Granite Memorials',
+                'sample-service-3' => 'Bronze Plaques'
+            );
+            
+            // Default selected service for preview
+            $default_service = 'sample-service-1';
+        }
+        
+        // Create the select element HTML
+        $service_select_html = sprintf(
+            '<select name="gct-service-select" class="gct-service-select" data-service-type="%s">',
+            esc_attr($service_type)
+        );
+        
+        // Add options
+        foreach ($service_options as $value => $label) {
+            $selected = $value === $default_service ? 'selected' : '';
+            $service_select_html .= sprintf(
+                '<option value="%s" %s>%s</option>',
+                esc_attr($value),
+                $selected,
+                esc_html($label)
+            );
+        }
+        
+        $service_select_html .= '</select>';
+        
+        // Get default service data for initial load if not in preview mode
+        $default_service_object = null;
+        $default_service_image = '';
+        $default_service_title = '';
+        $default_service_content = '';
+        $default_service_permalink = '#';
+        $default_locations = array();
+        
+        if ($is_preview) {
+            // Use sample data for preview
+            $default_service_title = 'Rose Memorials';
+            $default_service_content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+            $default_service_image = 'https://placehold.co/600x400/C8E2D4/254B45?text=Service+Image';
+            
+            // Sample locations for preview
+            $default_locations = array(
+                array('id' => 1, 'name' => 'Location Name', 'slug' => 'location-name'),
+                array('id' => 2, 'name' => 'Location Name', 'slug' => 'location-name'),
+                array('id' => 3, 'name' => 'Location Name', 'slug' => 'location-name'),
+                array('id' => 4, 'name' => 'Location Name', 'slug' => 'location-name'),
+                array('id' => 5, 'name' => 'Location Name', 'slug' => 'location-name'),
+                array('id' => 6, 'name' => 'Location Name', 'slug' => 'location-name'),
+                array('id' => 7, 'name' => 'Location Name', 'slug' => 'location-name'),
+                array('id' => 8, 'name' => 'Location Name', 'slug' => 'location-name'),
+            );
+        } elseif (!empty($default_service)) {
+            // Get service object
+            $default_service_object = get_post($default_service);
+            
+            if ($default_service_object) {
+                $default_service_title = $default_service_object->post_title;
+                $default_service_content = apply_filters('the_content', $default_service_object->post_content);
+                $default_service_permalink = get_permalink($default_service_object->ID);
+                
+                // Get service image
+                $default_service_image = get_the_post_thumbnail_url($default_service_object->ID, 'full');
+                if (!$default_service_image) {
+                    // Use a placeholder if no image is set
+                    $default_service_image = 'https://placehold.co/600x400/C8E2D4/254B45?text=Service+Image';
+                }
+                
+                // Get locations for this service
+                $location_terms = get_the_terms($default_service_object->ID, 'location-category');
+                if ($location_terms && !is_wp_error($location_terms)) {
+                    foreach ($location_terms as $term) {
+                        $default_locations[] = array(
+                            'id' => $term->term_id,
+                            'name' => $term->name,
+                            'slug' => $term->slug
+                        );
+                    }
+                }
             }
         }
         
-        // Start output buffering
-        ob_start();
+        // Build location buttons HTML
+        $location_buttons_html = '';
+        if (!empty($default_locations)) {
+            foreach ($default_locations as $location) {
+                $location_url = home_url('/resource/location/' . $location['slug'] . '/');
+                $location_buttons_html .= sprintf(
+                    '<a href="%s" class="gct-location-button" data-location-id="%d">%s</a>',
+                    esc_url($location_url),
+                    esc_attr($location['id']),
+                    esc_html($location['name'])
+                );
+            }
+        } else {
+            $location_buttons_html = '<p>No locations available for this service.</p>';
+        }
         
-        ?>
-        <?php if (!empty($module_title)) : ?>
-        <h2 class="gct-module-title"><?php echo esc_html($module_title); ?></h2>
-        <?php endif; ?>
+        // Build the module HTML - Updated to match the structure in preview.html
+        $output = '';
         
-        <div class="gct-service-location-module" data-nonce="<?php echo wp_create_nonce('gct_service_location_module_nonce'); ?>" data-service-type="<?php echo esc_attr($service_type); ?>">
-            <!-- Service Selection Container (Top) -->
-            <div class="gct-service-selection-container">
-                <div class="gct-service-selector">
-                    <label for="gct-service-select-<?php echo esc_attr($this->order_class_name); ?>"><?php echo esc_html($service_selector_label); ?></label>
-                    <select id="gct-service-select-<?php echo esc_attr($this->order_class_name); ?>" class="gct-service-select">
-                        <option value=""><?php esc_html_e('Select a service', 'gct-service-location-module'); ?></option>
-                        <?php foreach ($services as $service) : ?>
-                            <option value="<?php echo esc_attr($service->ID); ?>" <?php selected($first_service && $first_service->ID == $service->ID); ?>>
-                                <?php echo esc_html($service->post_title); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+        // Add module title if present
+        if (!empty($module_title)) {
+            $output .= sprintf(
+                '<h2 class="gct-module-title">%s</h2>',
+                esc_html($module_title)
+            );
+        }
+        
+        $output .= sprintf(
+            '<div class="gct-service-location-module" data-nonce="%s" data-service-type="%s">
+                <div class="gct-service-dropdown-container">
+                    %s
                 </div>
-            </div>
-            
-            <!-- Service Info Container (Main content) -->
-            <div class="gct-service-info-container">
-                <?php if ($first_service) : 
-                    $title = $first_service->post_title;
-                    $content = $first_service->post_content;
-                    $image = get_the_post_thumbnail_url($first_service->ID, 'full');
-                    if (empty($image) && !empty($default_image)) {
-                        $image = $default_image;
-                    }
-                ?>
-                <div class="gct-service-info-content">
-                    <div class="gct-service-text-content">
-                        <h4 class="gct-service-title"><?php echo esc_html($title); ?></h4>
-                        <div class="gct-service-description"><?php echo wp_kses_post(wpautop($content)); ?></div>
-                        <a href="<?php echo esc_url(get_permalink($first_service->ID)); ?>" class="gct-read-more-button"><?php echo esc_html($read_more_text . ' ' . $title); ?></a>
+                <div class="gct-service-content-container">
+                    <div class="gct-service-info-container">
+                        <div class="gct-service-content-wrapper">
+                            <div class="gct-service-image-container">
+                                <img src="%s" alt="%s" class="gct-service-image">
+                            </div>
+                            <div class="gct-service-content">
+                                <h3 class="gct-service-title">%s</h3>
+                                <div class="gct-service-description">%s</div>
+                                
+                                <h3 class="gct-location-section-title">%s</h3>
+                                <div class="gct-location-buttons">%s</div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <?php if (!empty($image)) : ?>
-                    <div class="gct-service-image-container">
-                        <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>" class="gct-service-image">
-                    </div>
-                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
-            </div>
-            
-            <!-- Location Buttons -->
-            <h3 class="gct-location-section-title"><?php echo esc_html($location_section_title); ?></h3>
-            <div class="gct-location-buttons">
-                <!-- Location buttons will be dynamically loaded via JS -->
-                <?php if ($first_service) : 
-                    $location_terms = get_the_terms($first_service->ID, 'location-category');
-                    if ($location_terms && !is_wp_error($location_terms) && !empty($location_terms)) :
-                        foreach ($location_terms as $term) : 
-                            $location_url = home_url('/resource/location/' . $term->slug . '/');
-                        ?>
-                            <a href="<?php echo esc_url($location_url); ?>" class="gct-location-button" data-location-id="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></a>
-                        <?php endforeach;
-                    else: ?>
-                        <p><?php esc_html_e('No locations available for this service.', 'gct-service-location-module'); ?></p>
-                    <?php endif;
-                endif; ?>
-            </div>
-        </div>
-        <?php
+            </div>',
+            wp_create_nonce('gct_service_location_module_nonce'),
+            esc_attr($service_type),
+            $service_select_html,
+            esc_url($default_service_image),
+            esc_attr($default_service_title),
+            esc_html($default_service_title),
+            $default_service_content,
+            esc_html($location_section_title),
+            $location_buttons_html
+        );
         
-        return ob_get_clean();
+        return $output;
     }
 }
 
