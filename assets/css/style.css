@@ -2,7 +2,7 @@
  * GCT Service Location Module Styles
  */
 
-.gct-service-location-module {
+ .gct-service-location-module {
     max-width: 100%;
     margin: 0 auto;
     font-family: 'Libre Franklin', sans-serif;
@@ -13,15 +13,10 @@
 .gct-module-title {
     margin-bottom: 1.5rem;
     color: rgb(37, 75, 69);
-    font-size: 42px;
+    font-size: 36px;
     font-family: 'Larken-Light', 'larken', sans-serif;
     font-weight: 400;
     text-align: center;
-}
-
-/* Main container styling */
-.gct-service-content-container {
-    margin-top: 5rem;
 }
 
 /* Service dropdown styling */
@@ -38,28 +33,27 @@
 /* Custom dropdown */
 .gct-custom-select {
     position: relative;
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
     width: 100%;
-    border-bottom: 2px solid rgb(37, 75, 69);
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    max-width: 100%;
+    z-index: 1000;
 }
 
 .gct-select-selected {
-    width: 100%;
-    padding: 0.75rem 1.25rem;
-    border: none;
-    border-top: 2px solid rgb(37, 75, 69);
-    border-left: 2px solid rgb(37, 75, 69);
-    border-right: 2px solid rgb(37, 75, 69);
-    border-radius: 6px 6px 0 0;
     background-color: white;
-    font-family: 'Libre Franklin', sans-serif;
-    font-size: 25px;
-    font-weight: 600;
-    color: rgb(37, 75, 69);
+    padding: 16px 20px;
+    border: 2px solid #254B45;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 20px;
+    color: #254B45;
     position: relative;
-    box-sizing: border-box;
+}
+
+/* When dropdown is active/open, change the bottom border radius */
+.gct-select-selected.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .gct-select-selected:after {
@@ -67,58 +61,51 @@
     position: absolute;
     right: 20px;
     top: 50%;
-    width: 12px;
-    height: 12px;
-    border-bottom: 2px solid rgb(37, 75, 69);
-    border-right: 2px solid rgb(37, 75, 69);
-    transform: translateY(-70%) rotate(45deg);
-    transition: transform 0.3s;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23254B45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-.gct-select-selected.active:after {
-    transform: translateY(-30%) rotate(-135deg);
+.gct-select-selected.select-arrow-active:after {
+    transform: translateY(-50%) rotate(180deg);
 }
 
 .gct-select-items {
     position: absolute;
+    background-color: white;
     top: 100%;
     left: 0;
     right: 0;
     z-index: 99;
-    background-color: white;
-    font-family: 'Libre Franklin', sans-serif;
-    font-size: 25px;
-    font-weight: 600;
-    color: rgb(37, 75, 69);
+    border: 2px solid #254B45;
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     max-height: 300px;
     overflow-y: auto;
     display: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-
-    border: none;
-    border-top: 2px solid rgb(37, 75, 69);
-    border-left: 2px solid rgb(37, 75, 69);
-    border-right: 2px solid rgb(37, 75, 69);
-    border-bottom: 2px solid rgb(37, 75, 69);
-    border-radius: 0 0 6px 6px;
 }
 
 .gct-select-items div {
-    padding: 0.75rem 1.25rem;
-    font-family: 'Libre Franklin', sans-serif;
-    font-size: 25px;
-    color: rgb(37, 75, 69);
+    color: #254B45;
+    padding: 12px 20px;
     cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.2s ease;
 }
 
-.gct-select-items div:hover,
-.gct-select-items div.same-as-selected {
-    background-color: #f2f2f2;
+.gct-select-items div:hover, 
+.same-as-selected {
+    background-color: #C8E2D4;
 }
 
 /* Service info container */
 .gct-service-content-container {
-    margin-top: 80px;
+    margin-top: 80px !important;
 }
 
 .gct-service-info-container {
@@ -129,14 +116,14 @@
 .gct-service-content-wrapper {
     display: flex;
     flex-direction: row;
-    gap: 60px;
+    gap: 40px;
     align-items: flex-start;
 }
 
 /* Service image container */
 .gct-service-image-container {
-    flex: 0 0 30%;
-    max-width: 30%;
+    flex: 0 0 35%;
+    max-width: 35%;
     /* background-color: #C8E2D4; */
     border-radius: 20px;
     overflow: hidden;
@@ -149,13 +136,13 @@
 }
 
 .gct-service-content {
-    flex: 0 0 70%;
-    max-width: 70%;
+    flex: 0 0 65%;
+    max-width: 65%;
 }
 
 .gct-service-title {
     margin-top: 0;
-    font-size: 42px;
+    font-size: 36px;
     font-family: 'Larken', 'larken', sans-serif;
     font-weight: normal;
     margin-bottom: 1rem;
@@ -166,10 +153,12 @@
 
 .gct-service-description {
     font-family: 'Libre Franklin', sans-serif;
-    font-size: 25px;
+    font-size: 18px;
     color: rgb(37, 75, 69);
-    line-height: 1.2;
+    line-height: 1.4;
     letter-spacing: 0.25px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .gct-service-description p {
@@ -190,7 +179,7 @@
 /* Location buttons */
 .gct-location-buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 15px;
     margin-top: 10px;
 }
@@ -200,15 +189,18 @@
     background-color: rgb(218, 238, 223);
     color: rgb(37, 75, 69);
     padding: 10px 15px;
-    border-radius: 4px;
+    border-radius: 12px;
     text-decoration: none;
     text-align: center;
     font-family: 'Larken-Light', 'larken', sans-serif;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 1.2;
     letter-spacing: 0px;
     transition: background-color 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .gct-location-button:hover {
@@ -291,4 +283,23 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.gct-locations-loading {
+    min-height: 50px;
+    position: relative;
+}
+
+.gct-locations-loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba(37, 75, 69, 0.1);
+    border-radius: 50%;
+    border-top: 2px solid rgb(37, 75, 69);
+    animation: spin 1s linear infinite;
 } 

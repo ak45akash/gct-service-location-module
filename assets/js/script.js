@@ -41,7 +41,7 @@
         // Close custom dropdowns when clicking outside
         $(document).on('click', function(e) {
             if (!$(e.target).closest('.gct-custom-select').length) {
-                $('.gct-select-selected').removeClass('active');
+                $('.gct-select-selected').removeClass('active').removeClass('select-arrow-active');
                 $('.gct-select-items').hide();
             }
         });
@@ -88,7 +88,7 @@
                             rebuildDropdownOptions($optionsDiv, $originalSelect, newValue, $selectedDiv);
                             
                             // Close the dropdown
-                            $selectedDiv.removeClass('active');
+                            $selectedDiv.removeClass('active').removeClass('select-arrow-active');
                             $optionsDiv.hide();
                         });
                     }
@@ -101,8 +101,18 @@
             
             // Toggle dropdown on click
             $selectedDiv.on('click', function() {
-                $(this).toggleClass('active');
-                $optionsDiv.toggle();
+                // Check if dropdown is already open
+                const isActive = $(this).hasClass('active');
+                
+                // Close all other dropdowns first
+                $('.gct-select-selected').removeClass('active').removeClass('select-arrow-active');
+                $('.gct-select-items').hide();
+                
+                // If this dropdown wasn't open, open it
+                if (!isActive) {
+                    $(this).addClass('active').addClass('select-arrow-active');
+                    $optionsDiv.show();
+                }
             });
             
             // Add custom dropdown to the container
@@ -141,7 +151,7 @@
                     rebuildDropdownOptions($optionsDiv, $originalSelect, newValue, $selectedDiv);
                     
                     // Close the dropdown
-                    $selectedDiv.removeClass('active');
+                    $selectedDiv.removeClass('active').removeClass('select-arrow-active');
                     $optionsDiv.hide();
                 });
             }
@@ -182,6 +192,12 @@
 
         // Add loading state
         $module.addClass('gct-loading');
+        
+        // Show loading state for locations
+        const $locationButtons = $module.find('.gct-location-buttons');
+        if ($locationButtons.length) {
+            $locationButtons.html('<div class="gct-locations-loading"></div>');
+        }
 
         // Get service data via AJAX
         $.ajax({
@@ -223,29 +239,48 @@
         let locationButtonsHtml = '';
         if (data.locations && data.locations.length) {
             data.locations.forEach(function(location) {
-                const locationUrl = gctServiceLocationModule.siteurl + '/resource/location/' + location.slug + '/';
-                locationButtonsHtml += `<a href="${locationUrl}" class="gct-location-button" data-location-id="${location.id}">${location.name}</a>`;
+                // Ensure the location.slug exists and use a default if not
+                const locationSlug = location.slug || 'location';
+                const locationUrl = gctServiceLocationModule.siteurl + '/resource/location/' + locationSlug + '/';
+                locationButtonsHtml += `<a href="${locationUrl}" class="gct-location-button" data-location-id="${location.id || 0}">${location.name || 'Location'}</a>`;
             });
         } else {
-            locationButtonsHtml = '<p>No locations available for this service.</p>';
+            // Only show the message if we've confirmed there are no locations after loading
+            locationButtonsHtml = ''; // Don't show any message
         }
         
-        const html = `
-            <div class="gct-service-content-wrapper">
-                <div class="gct-service-image-container">
-                    <img src="${imageUrl}" alt="${data.title}" class="gct-service-image">
-                </div>
-                <div class="gct-service-content">
-                    <h3 class="gct-service-title">${data.title}</h3>
-                    <div class="gct-service-description">${data.content}</div>
-                    
-                    <h3 class="gct-location-section-title">Locations</h3>
-                    <div class="gct-location-buttons">${locationButtonsHtml}</div>
-                </div>
-            </div>
-        `;
+        // Ensure content is sanitized and exists
+        const content = data.content || '';
+        const title = data.title || 'Service';
         
-        $serviceInfoContainer.html(html);
+        try {
+            const html = `
+                <div class="gct-service-content-wrapper">
+                    <div class="gct-service-image-container">
+                        <img src="${imageUrl}" alt="${title}" class="gct-service-image">
+                    </div>
+                    <div class="gct-service-content">
+                        <h3 class="gct-service-title">${title}</h3>
+                        <div class="gct-service-description">${content}</div>
+                        
+                        <div class="gct-location-buttons">${locationButtonsHtml}</div>
+                    </div>
+                </div>
+            `;
+            
+            $serviceInfoContainer.html(html);
+        } catch (error) {
+            console.error('Error updating service info:', error);
+            // Fallback to a simple display in case of error
+            $serviceInfoContainer.html(`
+                <div class="gct-service-content-wrapper">
+                    <div class="gct-service-content">
+                        <h3 class="gct-service-title">${title}</h3>
+                        <p>There was an error loading the service details. Please try again.</p>
+                    </div>
+                </div>
+            `);
+        }
     }
 
 })(jQuery); 

@@ -193,7 +193,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
     public function render($attrs, $content = null, $render_slug) {
         // Get the service type name
         $service_type_name = '';
-        $service_type = $this->props['default_service_type'];
+        $service_type = $this->props['service_type'];
         if (!empty($service_type)) {
             $service_type_term = get_term_by('slug', $service_type, 'service-type');
             if ($service_type_term && !is_wp_error($service_type_term)) {
@@ -207,11 +207,11 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
         $location_section_title = $this->props['location_section_title'];
         $default_service = $this->props['default_service'];
         
-        // Get service options (already pre-processed during process_dynamic_content)
-        $service_options = $this->service_options;
+        // Get service options based on service type
+        $service_options = $this->get_service_options($service_type);
         
         // Check if we're in preview mode
-        $is_preview = gct_is_divi_preview_mode();
+        $is_preview = function_exists('gct_is_divi_preview_mode') ? gct_is_divi_preview_mode() : false;
         
         // If in preview mode, create a fake service object for display purposes
         if ($is_preview) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: GCT Service Location Module
+ * Plugin Name: GCT Divi Service Location Module
  * Plugin URI: 
  * Description: Custom Divi module for Service Selection & Dynamic Location Display
  * Version: 1.0.0
@@ -8,7 +8,7 @@
  * Author URI: 
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: gct-service-location-module
+ * Text Domain: gct-divi-service-location-module
  * Domain Path: /languages
  */
 
