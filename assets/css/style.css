@@ -233,6 +233,12 @@
     }
 }
 
+/* Mobile layout styles */
+.gct-mobile-location-buttons {
+    display: none; /* Hide by default on desktop */
+    margin: 30px 0 20px;
+}
+
 @media screen and (max-width: 767px) {
     /* Mobile layout structure */
     .gct-service-location-module {
@@ -242,25 +248,28 @@
     
     .gct-service-dropdown-container {
         order: 1;
+        width: 100%;
     }
     
-    /* Create mobile-only location buttons that appear after dropdown */
+    /* Show mobile location buttons on mobile */
     .gct-mobile-location-buttons {
+        display: grid !important; /* Force display on mobile */
         order: 2;
-        margin: 30px 0 0;
-        display: grid;
+        width: 100%;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
-    }
-    
-    /* Only show on mobile */
-    .gct-mobile-location-buttons {
-        display: grid;
+        margin: 30px 0 20px;
     }
     
     .gct-service-content-container {
         order: 3;
-        margin-top: 40px !important;
+        margin-top: 20px !important;
+        width: 100%;
+    }
+    
+    /* Hide original location buttons on mobile */
+    .gct-service-content .gct-location-buttons {
+        display: none !important;
     }
     
     /* Original content layout */
@@ -276,10 +285,6 @@
     
     .gct-service-image-container {
         margin-bottom: 20px;
-    }
-    
-    .gct-location-buttons {
-        grid-template-columns: repeat(2, 1fr);
     }
 }
 

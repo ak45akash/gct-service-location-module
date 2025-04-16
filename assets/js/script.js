@@ -13,53 +13,65 @@
         
         // Update on window resize
         $(window).on('resize', function() {
-            initMobileLayout();
+            setupMobileLayout();
         });
+        
+        // Check periodically to ensure mobile layout is correct
+        setTimeout(function() {
+            setupMobileLayout();
+            
+            // Also check after a few seconds to catch any late-loading content
+            setTimeout(setupMobileLayout, 3000);
+        }, 1000);
     });
 
     /**
      * Initialize mobile layout adjustments
      */
     function initMobileLayout() {
+        // Run immediately and also whenever service changes
+        setupMobileLayout();
+        
+        // Also listen for changes to the service
+        $('.gct-service-select').on('change', function() {
+            // Wait a bit for the AJAX to complete
+            setTimeout(function() {
+                setupMobileLayout();
+            }, 300);
+        });
+    }
+
+    /**
+     * Set up the mobile layout structure
+     */
+    function setupMobileLayout() {
         $('.gct-service-location-module').each(function() {
             const $module = $(this);
             const isMobile = window.matchMedia('(max-width: 767px)').matches;
             
-            // If mobile and mobile buttons don't exist yet
-            if (isMobile && $module.find('.gct-mobile-location-buttons').length === 0) {
+            // Always remove existing mobile buttons to avoid duplicates
+            $module.find('.gct-mobile-location-buttons').remove();
+            
+            // If we're on mobile, create and populate mobile buttons
+            if (isMobile) {
+                console.log("Mobile view detected, setting up mobile layout");
+                
                 // Create location buttons for mobile
                 const $mobileButtons = $('<div class="gct-mobile-location-buttons"></div>');
+                
+                // Insert after dropdown
                 $mobileButtons.insertAfter($module.find('.gct-service-dropdown-container'));
                 
-                // Clone current location buttons content
-                updateMobileLocationButtons($module);
-                
-                // Hook into the AJAX response to update mobile buttons when content changes
-                $(document).ajaxComplete(function(event, xhr, settings) {
-                    if (settings.data && settings.data.indexOf('gct_service_location_module_get_service_data') !== -1) {
-                        setTimeout(function() {
-                            updateMobileLocationButtons($module);
-                        }, 100);
-                    }
-                });
-            }
-            // If not mobile and mobile buttons exist, remove them
-            else if (!isMobile) {
-                $module.find('.gct-mobile-location-buttons').remove();
+                // Copy content from original buttons
+                const $originalButtons = $module.find('.gct-location-buttons');
+                if ($originalButtons.length) {
+                    $mobileButtons.html($originalButtons.html());
+                    console.log("Copied location buttons to mobile container");
+                } else {
+                    console.log("Original location buttons not found");
+                }
             }
         });
-    }
-    
-    /**
-     * Update the mobile location buttons to match the current content
-     */
-    function updateMobileLocationButtons($module) {
-        const $mobileButtons = $module.find('.gct-mobile-location-buttons');
-        const $originalButtons = $module.find('.gct-location-buttons');
-        
-        if ($mobileButtons.length && $originalButtons.length) {
-            $mobileButtons.html($originalButtons.html());
-        }
     }
 
     /**
@@ -272,10 +284,11 @@
                 if (response.success && response.data) {
                     // Update service info
                     updateServiceInfo($serviceInfoContainer, response.data);
-                    // Update mobile buttons after service info is updated
+                    
+                    // After service info is updated, set up mobile layout again
                     setTimeout(function() {
-                        updateMobileLocationButtons($module);
-                    }, 100);
+                        setupMobileLayout();
+                    }, 200);
                 }
             },
             error: function(xhr, status, error) {
