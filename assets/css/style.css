@@ -234,6 +234,36 @@
 }
 
 @media screen and (max-width: 767px) {
+    /* Mobile layout structure */
+    .gct-service-location-module {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .gct-service-dropdown-container {
+        order: 1;
+    }
+    
+    /* Create mobile-only location buttons that appear after dropdown */
+    .gct-mobile-location-buttons {
+        order: 2;
+        margin: 30px 0 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    /* Only show on mobile */
+    .gct-mobile-location-buttons {
+        display: grid;
+    }
+    
+    .gct-service-content-container {
+        order: 3;
+        margin-top: 40px !important;
+    }
+    
+    /* Original content layout */
     .gct-service-content-wrapper {
         flex-direction: column;
     }

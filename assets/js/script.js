@@ -7,7 +7,60 @@
     $(document).ready(function() {
         // Initialize the module
         initServiceLocationModule();
+        
+        // Initialize mobile layout
+        initMobileLayout();
+        
+        // Update on window resize
+        $(window).on('resize', function() {
+            initMobileLayout();
+        });
     });
+
+    /**
+     * Initialize mobile layout adjustments
+     */
+    function initMobileLayout() {
+        $('.gct-service-location-module').each(function() {
+            const $module = $(this);
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
+            
+            // If mobile and mobile buttons don't exist yet
+            if (isMobile && $module.find('.gct-mobile-location-buttons').length === 0) {
+                // Create location buttons for mobile
+                const $mobileButtons = $('<div class="gct-mobile-location-buttons"></div>');
+                $mobileButtons.insertAfter($module.find('.gct-service-dropdown-container'));
+                
+                // Clone current location buttons content
+                updateMobileLocationButtons($module);
+                
+                // Hook into the AJAX response to update mobile buttons when content changes
+                $(document).ajaxComplete(function(event, xhr, settings) {
+                    if (settings.data && settings.data.indexOf('gct_service_location_module_get_service_data') !== -1) {
+                        setTimeout(function() {
+                            updateMobileLocationButtons($module);
+                        }, 100);
+                    }
+                });
+            }
+            // If not mobile and mobile buttons exist, remove them
+            else if (!isMobile) {
+                $module.find('.gct-mobile-location-buttons').remove();
+            }
+        });
+    }
+    
+    /**
+     * Update the mobile location buttons to match the current content
+     */
+    function updateMobileLocationButtons($module) {
+        const $mobileButtons = $module.find('.gct-mobile-location-buttons');
+        const $originalButtons = $module.find('.gct-location-buttons');
+        
+        if ($mobileButtons.length && $originalButtons.length) {
+            $mobileButtons.html($originalButtons.html());
+        }
+    }
 
     /**
      * Initialize the Service Location Module
@@ -195,8 +248,14 @@
         
         // Show loading state for locations
         const $locationButtons = $module.find('.gct-location-buttons');
+        const $mobileButtons = $module.find('.gct-mobile-location-buttons');
+        
         if ($locationButtons.length) {
             $locationButtons.html('<div class="gct-locations-loading"></div>');
+        }
+        
+        if ($mobileButtons.length) {
+            $mobileButtons.html('<div class="gct-locations-loading"></div>');
         }
 
         // Get service data via AJAX
@@ -213,6 +272,10 @@
                 if (response.success && response.data) {
                     // Update service info
                     updateServiceInfo($serviceInfoContainer, response.data);
+                    // Update mobile buttons after service info is updated
+                    setTimeout(function() {
+                        updateMobileLocationButtons($module);
+                    }, 100);
                 }
             },
             error: function(xhr, status, error) {
