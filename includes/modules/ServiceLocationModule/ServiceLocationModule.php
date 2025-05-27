@@ -135,7 +135,7 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
             'post_type'      => 'service',
             'posts_per_page' => -1,
             'post_status'    => 'publish',
-            'orderby'        => 'title',
+            'orderby'        => 'date',
             'order'          => 'ASC',
         );
         
@@ -291,11 +291,14 @@ class GCT_Service_Location_Module extends ET_Builder_Module {
                 $location_terms = get_the_terms($default_service_object->ID, 'location-category');
                 if ($location_terms && !is_wp_error($location_terms)) {
                     foreach ($location_terms as $term) {
-                        $default_locations[] = array(
-                            'id' => $term->term_id,
-                            'name' => $term->name,
-                            'slug' => $term->slug
-                        );
+                        // Only include child terms (subcategories)
+                        if ($term->parent != 0) {
+                            $default_locations[] = array(
+                                'id' => $term->term_id,
+                                'name' => $term->name,
+                                'slug' => $term->slug
+                            );
+                        }
                     }
                 }
             }

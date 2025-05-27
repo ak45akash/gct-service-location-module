@@ -140,11 +140,14 @@ function gct_service_location_module_get_service_data() {
     
     if ($location_terms && !is_wp_error($location_terms)) {
         foreach ($location_terms as $term) {
-            $locations[] = array(
-                'id' => $term->term_id,
-                'name' => $term->name,
-                'slug' => $term->slug
-            );
+            // Only include child terms (subcategories)
+            if ($term->parent != 0) {
+                $locations[] = array(
+                    'id' => $term->term_id,
+                    'name' => $term->name,
+                    'slug' => $term->slug
+                );
+            }
         }
     }
     
