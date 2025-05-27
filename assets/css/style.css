@@ -179,7 +179,7 @@
 /* Location buttons */
 .gct-location-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     margin-top: 60px;
 }
@@ -229,11 +229,41 @@
 /* Responsive styles */
 @media screen and (max-width: 980px) {
     .gct-location-buttons {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media screen and (max-width: 767px) {
+    /* Mobile layout structure */
+    .gct-service-location-module {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .gct-service-dropdown-container {
+        order: 1;
+    }
+    
+    /* Create mobile-only location buttons that appear after dropdown */
+    .gct-mobile-location-buttons {
+        order: 2;
+        margin: 30px 0 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    /* Only show on mobile */
+    .gct-mobile-location-buttons {
+        display: grid;
+    }
+    
+    .gct-service-content-container {
+        order: 3;
+        margin-top: 40px !important;
+    }
+    
+    /* Original content layout */
     .gct-service-content-wrapper {
         flex-direction: column;
     }
@@ -255,7 +285,7 @@
 
 @media screen and (max-width: 480px) {
     .gct-location-buttons {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -303,3 +333,14 @@
     border-top: 2px solid rgb(37, 75, 69);
     animation: spin 1s linear infinite;
 }  */
+
+
+.location-btn-wrapper-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 767px) {
+    .location-btn-wrapper-mobile {
+        display: block;
+    }
+}
